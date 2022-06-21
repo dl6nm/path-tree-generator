@@ -6,6 +6,7 @@ authors = ["Michael Meier <m.meier@onlineprinters.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pydantic = "^1.9.1"
 
 [tool.poetry.dev-dependencies]
 
