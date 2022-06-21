@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "tree-generator"
-version = "0.1.0"
+version = "0.0.1-alpha.0"
 description = ""
-authors = ["Michael Meier <m.meier@onlineprinters.com>"]
+authors = ["dl6nm <mail@dl6nm.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
