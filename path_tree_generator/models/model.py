@@ -9,6 +9,7 @@ from pydantic import BaseModel
 class ListEntryType(Enum):
     dir = 'dir'
     file = 'file'
+    link = 'link'
 
 
 class ListEntry(BaseModel):
@@ -17,3 +18,4 @@ class ListEntry(BaseModel):
     path: pathlib.Path
     sizeBytes: int
     children: Optional[list['ListEntry']]
+    # @todo: add permissions and attributes like mod, own, grp, ...
