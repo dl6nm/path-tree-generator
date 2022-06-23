@@ -1,12 +1,21 @@
 """
-Directory Tree Generator
+Path Tree Generator
 """
 
 
 class PathTree:
-    def __init__(self, root_dir, dir_only=False):
-        pass
+    def __init__(self, root_dir):
+        self._generator = _PathTreeGenerator(root_dir=root_dir)
 
     def dict(self):
-        return
+        return {
+            'foo': 'bar'
+        }
 
+    def human_readable(self):
+        return """I'm a human readable path..."""
+
+
+class _PathTreeGenerator:
+    def __init__(self, root_dir):
+        pass
