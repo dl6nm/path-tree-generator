@@ -2,7 +2,7 @@ import pathlib
 
 import pytest
 
-from path_tree_generator.models.listing import ListEntry, ListEntryType
+from path_tree_generator.models.list_entries import ListEntry, ListEntryType
 
 
 def test_list_entry_type():

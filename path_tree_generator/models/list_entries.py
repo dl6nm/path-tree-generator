@@ -16,6 +16,6 @@ class ListEntry(BaseModel):
     type: ListEntryType
     name: str
     path: pathlib.Path
-    sizeBytes: int
+    size_bytes: Optional[int]
     children: Optional[list['ListEntry']]
     # @todo: add permissions and attributes like mod, own, grp, ...
