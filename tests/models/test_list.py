@@ -39,3 +39,48 @@ def test_list_entry(_type, name, path, size_bytes):
     assert le.size_bytes == size_bytes
 
 
+@pytest.mark.parametrize(
+    argnames=['children', 'expected_values'],
+    argvalues=[
+        (
+                [
+                    ListEntry(
+                        type=ListEntryType.dir,
+                        name='mySubDir',
+                        path=pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
+                    ),
+                    ListEntry(
+                        type=ListEntryType.file,
+                        name='mySubDirFile.jpg',
+                        path=pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
+                        size_bytes=987654,
+                    ),
+                ],
+                [
+                    {
+                        'type': 'dir',
+                        'name': 'mySubDir',
+                        'path': '/path/to/directoryWithChildren/mySubDir',
+                    },
+                    {
+                        'type': 'file',
+                        'name': 'mySubDirFile.jpg',
+                        'path': '/path/to/directoryWithChildren/mySubDirFile.jpg',
+                        'size_bytes': 987654,
+                    },
+                ],
+        ),
+    ],
+    ids=['children'],
+)
+def test_list_entry_with_children(children: list[ListEntry], expected_values: dict):
+    le = ListEntry(
+        type=ListEntryType.dir,
+        name='directoryWithChildren',
+        path=pathlib.Path('/path/to/directoryWithChildren'),
+        children=children,
+    )
+    for idx, child in enumerate(le.children):
+        cle_expected = ListEntry(**expected_values[idx])
+        assert type(child) == ListEntry
+        assert child == cle_expected
