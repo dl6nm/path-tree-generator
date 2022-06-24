@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tree-generator"
-version = "0.0.1-alpha.0"
+version = "0.0.1-alpha.1"
 description = ""
 authors = ["dl6nm <mail@dl6nm.de>"]
 
