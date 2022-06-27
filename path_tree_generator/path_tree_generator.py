@@ -31,52 +31,29 @@ class _PathTreeGenerator:
             self._tree_built = True
         return self._tree_list
 
-    def _build_tree(self, path: pathlib.Path) -> list[ListEntry]:
+    def _build_tree(self, path: pathlib.Path):
+        self._tree_list = self._prepare_entries(path)
+
+    def _prepare_entries(self, path: pathlib.Path) -> list[ListEntry]:
         entries: list[ListEntry] = []
         if path.is_dir():
             for entry in path.iterdir():
                 if entry.is_dir():
                     entries.append(
-                        ListEntry(
-                            entry_type=ListEntryType.dir,
-                            name=entry.name,
-                            path=entry,
-                            children=self._build_tree(entry),
-                        )
+                        self._get_dir_entry(entry)
                     )
                 if entry.is_file():
                     entries.append(
-                        ListEntry(
-                            entry_type=ListEntryType.file,
-                            name=entry.name,
-                            path=entry,
-                        )
+                        self._get_file_entry(entry)
                     )
-                    print(f'   {entry.name} is a FILE')
-
-        self._tree_list
-        self._tree_built = True
-        print('entries: ', entries)
         return entries
 
-    def _add_entry(self, path: pathlib.Path):
-        entries: list[ListEntry] = []
-        if path.is_dir():
-            entries
-            print(f'{path} is a DIR')
-            entries.append(
-                self._get_dir_entry(path)
-            )
-        else:
-            print(f'{path} is a FILE')
-        return entries
-
-    def _get_dir_entry(self, path: pathlib.Path, children: list[ListEntry]):
+    def _get_dir_entry(self, path: pathlib.Path):
         return ListEntry(
             entry_type=ListEntryType.dir,
             name=path.name,
             path=path,
-            children=children
+            children=self._build_tree(path),
         )
 
     def _get_file_entry(self, path: pathlib.Path):
