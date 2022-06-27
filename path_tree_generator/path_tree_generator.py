@@ -26,6 +26,7 @@ class _PathTreeGenerator:
     def get_tree(self) -> list[ListEntry]:
         if not self._tree_built:
             self._build_tree()
+            self._tree_built = True
         return self._tree_list
 
     def _build_tree(self):
