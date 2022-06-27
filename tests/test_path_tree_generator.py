@@ -56,7 +56,7 @@ def test_ptg_add_directory(path, children, expected):
     ids=['data.json'],
 )
 def test_ptg_add_file(path, expected):
-    tree_list = _PathTreeGenerator('/data')
+    tree_list = _PathTreeGenerator('test')
     tree_list._add_file(path)
 
     list_entry = tree_list.get_tree()
