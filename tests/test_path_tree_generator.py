@@ -1,22 +1,58 @@
-from path_tree_generator.models.list_entries import ListEntry
+import pathlib
+
+import pytest
+
+from path_tree_generator.models.list_entries import ListEntry, ListEntryType
 from path_tree_generator.path_tree_generator import _PathTreeGenerator
 
 
-def test_path_tree_dict(shared_datadir):
+@pytest.mark.parametrize(
+    argnames=['path', 'children', 'expected'],
+    argvalues=[
+        (
+                pathlib.Path('/data'),
+                None,
+                {
+                    'entry': ListEntry(
+                        entry_type=ListEntryType.dir,
+                        name='data',
+                        path=pathlib.Path('/data'),
+                        children=None,
+                    ),
+                    'length': 1,
+                }
+        )
+    ],
+    ids=['data'],
+)
+def test_ptg_add_directory(path, children, expected):
+    tree_list = _PathTreeGenerator('test')
+    tree_list._add_directory(path, children)
+
+    list_entry = tree_list.get_tree()
+
+    assert type(list_entry[0].entry_type) == ListEntryType
+    assert list_entry[0].entry_type == ListEntryType.dir
+
+    assert len(list_entry) == expected.get('length')
+    assert list_entry[0] == expected.get('entry')
+
+
+def test_ptg_add_file():
+    assert False
+
+
+def test_ptg_build_tree():
+    assert False
+
+
+def test_ptg_get_tree(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
     assert isinstance(ptg.get_tree(), list)
 
 
-def test_path_tree_human_readable(shared_datadir):
+def test_ptg_human_readable(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
     assert isinstance(ptg.get_tree_human_readable(), list)
-
-
-def test_path_tree_add_directory():
-    pass
-
-
-def test_path_tree_add_file():
-    pass
