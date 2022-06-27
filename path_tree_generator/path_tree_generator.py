@@ -18,7 +18,7 @@ class PathTree:
 
 
 class _PathTreeGenerator:
-    def __init__(self, root_dir):
+    def __init__(self, root_dir: pathlib.Path):
         self._root_dir = root_dir
         self._tree_list: list[ListEntry] = []
         self._tree_built = False
@@ -30,7 +30,6 @@ class _PathTreeGenerator:
         return self._tree_list
 
     def _build_tree(self):
-        pass
         if self._root_dir.is_dir():
             # self._root_dir.iterdir()
             children: list[ListEntry] = []
