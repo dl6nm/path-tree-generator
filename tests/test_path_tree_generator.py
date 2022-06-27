@@ -7,35 +7,28 @@ from path_tree_generator.path_tree_generator import _PathTreeGenerator
 
 
 @pytest.mark.parametrize(
-    argnames=['path', 'children', 'expected'],
+    argnames=['path', 'children', 'expected_dir_entry'],
     argvalues=[
         (
                 pathlib.Path('/data'),
                 None,
-                {
-                    'entry': ListEntry(
-                        entry_type=ListEntryType.dir,
-                        name='data',
-                        path=pathlib.Path('/data'),
-                        children=None,
-                    ),
-                    'length': 1,
-                }
+                ListEntry(
+                    entry_type=ListEntryType.dir,
+                    name='data',
+                    path=pathlib.Path('/data'),
+                    children=None,
+                ),
         )
     ],
     ids=['data'],
 )
-def test_ptg_add_directory(path, children, expected):
+def test_ptg_add_directory(path, children, expected_dir_entry):
     tree_list = _PathTreeGenerator('test')
-    tree_list._add_directory(path, children)
+    dir_entry = tree_list._get_dir_entry(path, children)
 
-    list_entry = tree_list.get_tree()
-
-    assert type(list_entry[0].entry_type) == ListEntryType
-    assert list_entry[0].entry_type == ListEntryType.dir
-
-    assert len(list_entry) == expected.get('length')
-    assert list_entry[0] == expected.get('entry')
+    assert type(dir_entry.entry_type) == ListEntryType
+    assert dir_entry.entry_type == ListEntryType.dir
+    assert dir_entry == expected_dir_entry
 
 
 @pytest.mark.parametrize(
