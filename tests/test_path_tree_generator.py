@@ -38,8 +38,34 @@ def test_ptg_add_directory(path, children, expected):
     assert list_entry[0] == expected.get('entry')
 
 
-def test_ptg_add_file():
-    assert False
+@pytest.mark.parametrize(
+    argnames=['path', 'expected'],
+    argvalues=[
+        (
+                pathlib.Path('/data/data.json'),
+                {
+                    'entry': ListEntry(
+                        entry_type=ListEntryType.file,
+                        name='data.json',
+                        path=pathlib.Path('/data/data.json'),
+                    ),
+                    'length': 1,
+                }
+        )
+    ],
+    ids=['data.json'],
+)
+def test_ptg_add_file(path, expected):
+    tree_list = _PathTreeGenerator('/data')
+    tree_list._add_file(path)
+
+    list_entry = tree_list.get_tree()
+
+    assert type(list_entry[0].entry_type) == ListEntryType
+    assert list_entry[0].entry_type == ListEntryType.file
+
+    assert len(list_entry) == expected.get('length')
+    assert list_entry[0] == expected.get('entry')
 
 
 def test_ptg_build_tree():
