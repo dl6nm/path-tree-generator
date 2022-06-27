@@ -31,22 +31,28 @@ class _PathTreeGenerator:
 
     def _build_tree(self):
         pass
-
-    def _add_directory(self, path: pathlib.Path, children: list[ListEntry]):
-        self._tree_list.append(
-            ListEntry(
-                entry_type=ListEntryType.dir,
-                name=path.name,
-                path=path,
-                children=children
+        if self._root_dir.is_dir():
+            # self._root_dir.iterdir()
+            children: list[ListEntry] = []
+            for entry in self._root_dir.iterdir():
+                children = self._add_entry(entry)
+            self._tree_list.append(
+                self._get_dir_entry(path=self._root_dir, children=children)
             )
+
+        print(self._tree_list)
+
+    def _get_dir_entry(self, path: pathlib.Path, children: list[ListEntry]):
+        return ListEntry(
+            entry_type=ListEntryType.dir,
+            name=path.name,
+            path=path,
+            children=children
         )
 
-    def _add_file(self, path: pathlib.Path):
-        self._tree_list.append(
-            ListEntry(
-                entry_type=ListEntryType.file,
-                name=path.name,
-                path=path,
-            )
+    def _get_file_entry(self, path: pathlib.Path):
+        return ListEntry(
+            entry_type=ListEntryType.file,
+            name=path.name,
+            path=path,
         )
