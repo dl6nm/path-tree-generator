@@ -25,15 +25,15 @@ def test_list_entry_type():
 )
 def test_list_entry(_type, name, path, size_bytes):
     le = ListEntry(
-        type=_type,
+        entry_type=_type,
         name=name,
         path=path,
         size_bytes=size_bytes,
     )
-    assert type(le.type) == ListEntryType
-    assert le.type == ListEntryType(_type)
+    assert type(le.entry_type) == ListEntryType
+    assert le.entry_type == ListEntryType(_type)
 
-    assert le.type.name == _type
+    assert le.entry_type.name == _type
     assert le.name == name
     assert le.path == pathlib.Path(path)
     assert le.size_bytes == size_bytes
@@ -45,12 +45,12 @@ def test_list_entry(_type, name, path, size_bytes):
         (
                 [
                     ListEntry(
-                        type=ListEntryType.dir,
+                        entry_type=ListEntryType.dir,
                         name='mySubDir',
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
                     ),
                     ListEntry(
-                        type=ListEntryType.file,
+                        entry_type=ListEntryType.file,
                         name='mySubDirFile.jpg',
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
                         size_bytes=987654,
@@ -75,7 +75,7 @@ def test_list_entry(_type, name, path, size_bytes):
 )
 def test_list_entry_with_children(children: list[ListEntry], expected_values: dict):
     le = ListEntry(
-        type=ListEntryType.dir,
+        entry_type=ListEntryType.dir,
         name='directoryWithChildren',
         path=pathlib.Path('/path/to/directoryWithChildren'),
         children=children,

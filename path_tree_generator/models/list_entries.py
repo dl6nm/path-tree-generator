@@ -13,7 +13,7 @@ class ListEntryType(Enum):
 
 
 class ListEntry(BaseModel):
-    type: ListEntryType
+    entry_type: ListEntryType
     name: str
     path: pathlib.Path
     size_bytes: Optional[int]
