@@ -23,7 +23,7 @@ from path_tree_generator.path_tree_generator import _PathTreeGenerator
     ids=['data'],
 )
 def test_ptg_add_directory(path, children, expected_dir_entry):
-    tree_list = _PathTreeGenerator('test')
+    tree_list = _PathTreeGenerator(pathlib.Path('test'))
     dir_entry = tree_list._get_dir_entry(path, children)
 
     assert type(dir_entry.entry_type) == ListEntryType
@@ -32,33 +32,27 @@ def test_ptg_add_directory(path, children, expected_dir_entry):
 
 
 @pytest.mark.parametrize(
-    argnames=['path', 'expected'],
+    argnames=['path', 'expected_file_entry'],
     argvalues=[
         (
                 pathlib.Path('/data/data.json'),
-                {
-                    'entry': ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='data.json',
-                        path=pathlib.Path('/data/data.json'),
-                    ),
-                    'length': 1,
-                }
+                ListEntry(
+                    entry_type=ListEntryType.file,
+                    name='data.json',
+                    path=pathlib.Path('/data/data.json'),
+                ),
         )
     ],
     ids=['data.json'],
 )
-def test_ptg_add_file(path, expected):
-    tree_list = _PathTreeGenerator('test')
-    tree_list._add_file(path)
+def test_ptg_add_file(path, expected_file_entry):
+    tree_list = _PathTreeGenerator(pathlib.Path('test'))
+    file_entry = tree_list._get_file_entry(path)
 
-    list_entry = tree_list.get_tree()
+    assert type(file_entry.entry_type) == ListEntryType
+    assert file_entry.entry_type == ListEntryType.file
 
-    assert type(list_entry[0].entry_type) == ListEntryType
-    assert list_entry[0].entry_type == ListEntryType.file
-
-    assert len(list_entry) == expected.get('length')
-    assert list_entry[0] == expected.get('entry')
+    assert file_entry == expected_file_entry
 
 
 @pytest.mark.parametrize(
@@ -155,7 +149,7 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(root_dir=root_dir)
     assert ptg._tree_built is False
-    ptg._build_tree()
+    ptg._build_tree(root_dir)
     assert ptg._tree_built is True
     assert ptg._tree_list == expected_tree
 
