@@ -75,10 +75,14 @@ def test_ptg_build_tree():
 def test_ptg_get_tree(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
+    assert ptg._tree_built is False
     assert isinstance(ptg.get_tree(), list)
+    assert ptg._tree_built is True
 
 
 def test_ptg_human_readable(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
+    assert ptg._tree_built is False
     assert isinstance(ptg.get_tree_human_readable(), list)
+    assert ptg._tree_built is True
