@@ -153,5 +153,35 @@ def test_ptg_human_readable(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree_human_readable(), list)
+    assert isinstance(ptg.get_tree_human_readable_list(), list)
+    assert ptg._tree_built is True
+
+
+@pytest.mark.parametrize(
+    argnames='expected_hr_tree',
+    argvalues=[
+        [
+            '[data]',
+            '├── data.json',
+            '├── data.tree',
+            '├── [myDirectory-1]',
+            '│   ├── myFile.txt',
+            '│   └── [subdirectory]',
+            '│       └── green.gif',
+            '└── [myDirectory-2]',
+            '    ├── [subdirectory1]',
+            '    │   └── green.gif',
+            '    └── [subdirectory2]',
+            '        ├── myFile.txt',
+            '        └── myFile2.txt'
+        ]
+    ],
+    ids=['human readable']
+)
+def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
+    root_dir = shared_datadir
+    ptg = _PathTreeGenerator(root_dir=root_dir)
+
+    assert ptg._tree_built is False
+    assert ptg.get_tree_human_readable_list(relative_paths=True) == expected_hr_tree
     assert ptg._tree_built is True
