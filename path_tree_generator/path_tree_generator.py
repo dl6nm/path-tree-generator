@@ -28,27 +28,30 @@ class _PathTreeGenerator:
     def get_tree(self) -> list[ListEntry]:
         if not self._tree_built:
             self._build_tree(self._root_dir)
-            self._tree_built = True
         return self._tree_list
 
-    def _build_tree(self, path: pathlib.Path):
-        self._tree_list = self._prepare_entries(path)
+    def _build_tree(self, path: pathlib.Path, relative_paths=True):
+        relative_to = path if relative_paths else None
+        self._tree_list = self._prepare_entries(path, relative_to.parent)
+        self._tree_built = True
 
-    def _prepare_entries(self, path: pathlib.Path) -> list[ListEntry]:
+    def _prepare_entries(self, path: pathlib.Path, relative_to=None) -> list[ListEntry]:
         entries: list[ListEntry] = []
         if path.is_dir():
             for entry in path.iterdir():
                 if entry.is_dir():
                     entries.append(
-                        self._get_dir_entry(entry)
+                        self._get_dir_entry(entry, relative_to)
                     )
                 if entry.is_file():
                     entries.append(
-                        self._get_file_entry(entry)
+                        self._get_file_entry(entry, relative_to)
                     )
         return entries
 
-    def _get_dir_entry(self, path: pathlib.Path):
+    def _get_dir_entry(self, path: pathlib.Path, relative_to=None):
+        if relative_to not in [None, '']:
+            path = path.relative_to(relative_to)
         return ListEntry(
             entry_type=ListEntryType.dir,
             name=path.name,
@@ -56,7 +59,9 @@ class _PathTreeGenerator:
             children=self._build_tree(path),
         )
 
-    def _get_file_entry(self, path: pathlib.Path):
+    def _get_file_entry(self, path: pathlib.Path, relative_to=None):
+        if relative_to not in [None, '']:
+            path = path.relative_to(relative_to)
         return ListEntry(
             entry_type=ListEntryType.file,
             name=path.name,
