@@ -1,7 +1,6 @@
 """
 Path Tree Generator
 """
-import os
 import pathlib
 
 from .models.list_entries import ListEntry, ListEntryType
