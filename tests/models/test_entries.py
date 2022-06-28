@@ -58,12 +58,12 @@ def test_list_entry(_type, name, path, size_bytes):
                 ],
                 [
                     {
-                        'type': 'dir',
+                        'entry_type': 'dir',
                         'name': 'mySubDir',
                         'path': '/path/to/directoryWithChildren/mySubDir',
                     },
                     {
-                        'type': 'file',
+                        'entry_type': 'file',
                         'name': 'mySubDirFile.jpg',
                         'path': '/path/to/directoryWithChildren/mySubDirFile.jpg',
                         'size_bytes': 987654,
