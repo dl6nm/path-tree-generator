@@ -1,71 +1,71 @@
 {
-  "type": "dir",
+  "entry_type": "dir",
   "name": "data",
-  "path": "data",
+  "path": ".",
   "children": [
     {
-      "type": "file",
+      "entry_type": "file",
       "name": "data.json",
       "path": "data/data.json"
     },
     {
-      "type": "file",
+      "entry_type": "file",
       "name": "data.tree",
       "path": "data/data.tree"
     },
     {
-      "type": "dir",
+      "entry_type": "dir",
       "name": "myDirectory-1",
       "path": "data/myDirectory-1",
       "children": [
         {
-          "type": "dir",
+          "entry_type": "dir",
           "name": "subdirectory",
           "path": "data/myDirectory-1/subdirectory",
           "children": [
             {
-              "type": "file",
+              "entry_type": "file",
               "name": "green.gif",
               "path": "data/myDirectory-1/subdirectory/green.gif"
             }
           ]
         },
         {
-          "type": "file",
+          "entry_type": "file",
           "name": "myFile.txt",
           "path": "data/myDirectory-1/myFile.txt"
         }
       ]
     },
     {
-      "type": "dir",
+      "entry_type": "dir",
       "name": "myDirectory-2",
       "path": "data/myDirectory-2",
       "children": [
         {
-          "type": "dir",
+          "entry_type": "dir",
           "name": "subdirectory1",
           "path": "data/myDirectory-2/subdirectory1",
           "children": [
             {
-              "type": "file",
+              "entry_type": "file",
               "name": "green.gif",
               "path": "data/myDirectory-2/subdirectory1/green.gif"
             }
           ]
         },
         {
-          "type": "dir",
+          "entry_type": "dir",
           "name": "subdirectory2",
           "path": "data/myDirectory-2/subdirectory2",
           "children": [
             {
-              "type": "file",
+              "entry_type": "file",
               "name": "myFile.txt",
               "path": "data/myDirectory-2/subdirectory2/myFile.txt"
             },
             {
-              "type": "file",
+              "entry_type": "file",
               "name": "myFile2.txt",
               "path": "data/myDirectory-2/subdirectory2/myFile2.txt"
             }
