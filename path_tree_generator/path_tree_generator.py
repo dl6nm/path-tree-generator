@@ -32,44 +32,41 @@ class _PathTreeGenerator:
 
     def _build_tree(self, path: pathlib.Path, relative_paths=True):
         if relative_paths:
-            relative_to = path
-            entries = self._prepare_entries(path, relative_to.parent)
+            entries = self._prepare_entries(
+                path.relative_to(path.parent)
+            )
         else:
-            entries = self._prepare_entries(path, None)
+            entries = self._prepare_entries(path)
 
         if entries:
             self._tree_list = entries
 
         self._tree_built = True
 
-    def _prepare_entries(self, path: pathlib.Path, relative_to=None) -> list[ListEntry] | None:
+    def _prepare_entries(self, path: pathlib.Path) -> list[ListEntry] | None:
         entries: list[ListEntry] = []
         if path.is_dir():
             for entry in path.iterdir():
                 if entry.is_dir():
                     entries.append(
-                        self._get_dir_entry(entry, relative_to)
+                        self._get_dir_entry(entry)
                     )
                 if entry.is_file():
                     entries.append(
-                        self._get_file_entry(entry, relative_to)
+                        self._get_file_entry(entry)
                     )
         if entries:
             return entries
 
-    def _get_dir_entry(self, path: pathlib.Path, relative_to=None):
-        if relative_to not in [None, '']:
-            path = path.relative_to(relative_to)
+    def _get_dir_entry(self, path: pathlib.Path):
         return ListEntry(
             entry_type=ListEntryType.dir,
             name=path.name,
             path=path,
-            children=self._prepare_entries(path, relative_to),
+            children=self._prepare_entries(path),
         )
 
-    def _get_file_entry(self, path: pathlib.Path, relative_to=None):
-        if relative_to not in [None, '']:
-            path = path.relative_to(relative_to)
+    def _get_file_entry(self, path: pathlib.Path):
         return ListEntry(
             entry_type=ListEntryType.file,
             name=path.name,
