@@ -3,13 +3,22 @@ import json
 import pytest
 
 from path_tree_generator import PathTree
+from path_tree_generator.models.list_entries import ListEntry
 
 
 def test_path_tree_dict(shared_datadir):
     pt = PathTree(root_dir=shared_datadir)
     data_file = (shared_datadir/'data.json')
+    # data = json.load(data_file.open(encoding='utf-8'))
+    expected_dict = ListEntry.parse_file(data_file)
+    assert pt.dict() == expected_dict.dict()
+
+
+def test_path_tree_json(shared_datadir):
+    pt = PathTree(root_dir=shared_datadir)
+    data_file = (shared_datadir/'data.json')
     data = json.load(data_file.open(encoding='utf-8'))
-    assert pt.dict() == data
+    assert pt.json() == data
 
 
 @pytest.mark.parametrize(
