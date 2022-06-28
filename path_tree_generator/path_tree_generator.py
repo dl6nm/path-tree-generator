@@ -25,8 +25,15 @@ class _PathTreeGenerator:
         self._tree_list: list[ListEntry] = []
         self._tree_built = False
 
-    def get_tree(self) -> list[ListEntry]:
-        self._build_tree(self._root_dir)
+    def get_tree(self, relative_paths=True, wrap_with_root_dir=True) -> ListEntry | list[ListEntry]:
+        self._build_tree(self._root_dir, relative_paths=relative_paths)
+        if wrap_with_root_dir:
+            return ListEntry(
+                entry_type=ListEntryType.dir,
+                name=self._root_dir.name,
+                path=self._root_dir,
+                children=self._tree_list,
+            )
         return self._tree_list
 
     def _build_tree(self, path: pathlib.Path, relative_paths=True):
