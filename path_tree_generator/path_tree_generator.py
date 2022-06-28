@@ -17,7 +17,7 @@ class PathTree:
         return self._generator.get_tree()
 
     def human_readable(self):
-        return """I'm a human readable path..."""
+        return self._generator.get_tree_human_readable_list()
 
 
 class _PathTreeGenerator:
@@ -34,8 +34,9 @@ class _PathTreeGenerator:
         self._root_dir = root_dir
         self._tree_list: list[ListEntry] = []
         self._tree_dict: dict[ListEntry] = {}
-        self._hr_tree_list: list[str] = []
         self._tree_built = False
+        self._hr_tree_list: list[str] = []
+        self._hr_tree_built = False
 
     def get_tree(self, relative_paths=True, wrap_with_root_dir=True) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir, relative_paths=relative_paths)
@@ -95,9 +96,15 @@ class _PathTreeGenerator:
 
     def get_tree_human_readable_list(self, relative_paths=True, root_dir_name_only=True) -> list[str]:
         self._build_tree(self._root_dir, relative_paths=relative_paths)
+        self._build_hr_tree(root_dir_name_only=root_dir_name_only)
+        return self._hr_tree_list
+
+    def _build_hr_tree(self, root_dir_name_only=True):
+        if self._hr_tree_built:
+            return
         self._hr_tree_head(root_dir_name_only=root_dir_name_only)
         self._hr_tree_body(self._tree_list)
-        return self._hr_tree_list
+        self._hr_tree_built = True
 
     def _hr_tree_head(self, root_dir_name_only=True):
         tree_head = self._root_dir.name if root_dir_name_only else self._root_dir
