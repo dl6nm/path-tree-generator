@@ -26,11 +26,12 @@ class _PathTreeGenerator:
         self._tree_built = False
 
     def get_tree(self) -> list[ListEntry]:
-        if not self._tree_built:
-            self._build_tree(self._root_dir)
+        self._build_tree(self._root_dir)
         return self._tree_list
 
     def _build_tree(self, path: pathlib.Path, relative_paths=True):
+        if self._tree_built:
+            return
         if relative_paths:
             entries = self._prepare_entries(
                 path.relative_to(path.parent)
