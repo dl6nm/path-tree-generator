@@ -14,11 +14,6 @@
       "path": "data/data.tree"
     },
     {
-      "type": "file",
-      "name": "data2.tree",
-      "path": "data/data2.tree"
-    },
-    {
       "type": "dir",
       "name": "myDirectory-1",
       "path": "data/myDirectory-1",
