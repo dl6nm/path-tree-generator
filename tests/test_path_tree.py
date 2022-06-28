@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from path_tree_generator import PathTree
 
 
@@ -10,8 +12,33 @@ def test_path_tree_dict(shared_datadir):
     assert pt.dict() == data
 
 
-def test_path_tree_human_readable(shared_datadir):
+@pytest.mark.parametrize(
+    argnames='expected_hr_tree',
+    argvalues=[
+        [
+            '[data]',
+            '├── data.json',
+            '├── data.tree',
+            '├── [myDirectory-1]',
+            '│   ├── myFile.txt',
+            '│   └── [subdirectory]',
+            '│       └── green.gif',
+            '└── [myDirectory-2]',
+            '    ├── [subdirectory1]',
+            '    │   └── green.gif',
+            '    └── [subdirectory2]',
+            '        ├── myFile.txt',
+            '        └── myFile2.txt'
+        ]
+    ],
+    ids=['human readable']
+)
+def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
     pt = PathTree(root_dir=shared_datadir)
+
+    assert pt.human_readable() == expected_hr_tree
+
     data_file = (shared_datadir/'data.tree')
     data = data_file.open(encoding='utf-8').read()
-    assert pt.human_readable() == data
+    pt_hr = '\n'.join(pt.human_readable())
+    assert pt_hr == data
