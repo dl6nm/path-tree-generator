@@ -13,7 +13,10 @@ class PathTree:
         self._generator = _PathTreeGenerator(root_dir=root_dir)
 
     def dict(self):
-        return self._generator.get_tree()
+        return self._generator.get_tree().dict()
+
+    def json(self):
+        return self._generator.get_tree().json()
 
     def human_readable(self):
         return self._generator.get_tree_human_readable_list()
