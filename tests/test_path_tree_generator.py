@@ -7,11 +7,10 @@ from path_tree_generator.path_tree_generator import _PathTreeGenerator
 
 
 @pytest.mark.parametrize(
-    argnames=['path', 'children', 'expected_dir_entry'],
+    argnames=['path', 'expected_dir_entry'],
     argvalues=[
         (
                 pathlib.Path('/data'),
-                None,
                 ListEntry(
                     entry_type=ListEntryType.dir,
                     name='data',
@@ -22,9 +21,9 @@ from path_tree_generator.path_tree_generator import _PathTreeGenerator
     ],
     ids=['data'],
 )
-def test_ptg_add_directory(path, children, expected_dir_entry):
+def test_ptg_add_directory(path, expected_dir_entry):
     tree_list = _PathTreeGenerator(pathlib.Path('test'))
-    dir_entry = tree_list._get_dir_entry(path, children)
+    dir_entry = tree_list._get_dir_entry(path)
 
     assert type(dir_entry.entry_type) == ListEntryType
     assert dir_entry.entry_type == ListEntryType.dir
@@ -60,96 +59,88 @@ def test_ptg_add_file(path, expected_file_entry):
     argvalues=[
         [
             ListEntry(
+                entry_type=ListEntryType.file,
+                name='data.json',
+                path=pathlib.Path('data/data.json')
+            ),
+            ListEntry(
+                entry_type=ListEntryType.file,
+                name='data.tree',
+                path=pathlib.Path('data/data.tree')
+            ),
+            ListEntry(
                 entry_type=ListEntryType.dir,
-                name='data',
-                path=pathlib.Path('data'),
+                name='myDirectory-1',
+                path=pathlib.Path('data/myDirectory-1'),
                 children=[
                     ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='data.json',
-                        path=pathlib.Path('data/data.json')
-                    ),
-                    ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='data.tree',
-                        path=pathlib.Path('data/data.tree')
-                    ),
-                    ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='data2.tree',
-                        path=pathlib.Path('data/data2.tree')
-                    ),
-                    ListEntry(
                         entry_type=ListEntryType.dir,
-                        name='myDirectory-1',
-                        path=pathlib.Path('data/myDirectory-1'),
+                        name='subdirectory',
+                        path=pathlib.Path('data/myDirectory-1/subdirectory'),
                         children=[
                             ListEntry(
-                                entry_type=ListEntryType.dir,
-                                name='subdirectory',
-                                path=pathlib.Path('data/myDirectory-1/subdirectory'),
-                                children=[
-                                    ListEntry(
-                                        entry_type=ListEntryType.file,
-                                        name='green.gif',
-                                        path=pathlib.Path('data/myDirectory-1/subdirectory/green.gif')
-                                    )
-                                ]
-                            ),
+                                entry_type=ListEntryType.file,
+                                name='green.gif',
+                                path=pathlib.Path('data/myDirectory-1/subdirectory/green.gif')
+                            )
+                        ]
+                    ),
+                    ListEntry(
+                        entry_type=ListEntryType.file,
+                        name='myFile.txt',
+                        path=pathlib.Path('data/myDirectory-1/myFile.txt')
+                    )
+                ]
+            ),
+            ListEntry(
+                entry_type=ListEntryType.dir,
+                name='myDirectory-2',
+                path=pathlib.Path('data/myDirectory-2'),
+                children=[
+                    ListEntry(
+                        entry_type=ListEntryType.dir,
+                        name='subdirectory1',
+                        path=pathlib.Path('data/myDirectory-2/subdirectory1'),
+                        children=[
                             ListEntry(
                                 entry_type=ListEntryType.file,
-                                name='myFile.txt',
-                                path=pathlib.Path('data/myDirectory-1/myFile.txt')
+                                name='green.gif',
+                                path=pathlib.Path('data/myDirectory-2/subdirectory1/green.gif')
                             )
                         ]
                     ),
                     ListEntry(
                         entry_type=ListEntryType.dir,
-                        name='myDirectory-2',
-                        path=pathlib.Path('data/myDirectory-2'),
+                        name='subdirectory2',
+                        path=pathlib.Path('data/myDirectory-2/subdirectory2'),
                         children=[
                             ListEntry(
-                                entry_type=ListEntryType.dir,
-                                name='subdirectory1',
-                                path=pathlib.Path('data/myDirectory-2/subdirectory1'),
-                                children=[
-                                    ListEntry(
-                                        entry_type=ListEntryType.file,
-                                        name='green.gif',
-                                        path=pathlib.Path('data/myDirectory-2/subdirectory1/green.gif')
-                                    )
-                                ]
+                                entry_type=ListEntryType.file,
+                                name='myFile.txt',
+                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile.txt')
                             ),
                             ListEntry(
-                                entry_type=ListEntryType.dir,
-                                name='subdirectory2',
-                                path=pathlib.Path('data/myDirectory-2/subdirectory2'),
-                                children=[
-                                    ListEntry(
-                                        entry_type=ListEntryType.file,
-                                        name='myFile.txt',
-                                        path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile.txt')
-                                    ),
-                                    ListEntry(
-                                        entry_type=ListEntryType.file,
-                                        name='myFile2.txt',
-                                        path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile2.txt')
-                                    )
-                                ]
+                                entry_type=ListEntryType.file,
+                                name='myFile2.txt',
+                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile2.txt')
                             )
                         ]
                     )
                 ]
             )
-
         ]
     ],
 )
 def test_ptg_build_tree(shared_datadir, expected_tree):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(root_dir=root_dir)
+
+    print('\n', '#' * 100)
+    print(f'root_dir: {root_dir}')
+    print('#' * 100)
+
     assert ptg._tree_built is False
-    ptg._build_tree(root_dir)
+    ptg._build_tree(root_dir, relative_paths=True)
     assert ptg._tree_built is True
     assert ptg._tree_list == expected_tree
 
