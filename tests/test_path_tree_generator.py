@@ -135,10 +135,6 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(root_dir=root_dir)
 
-    print('\n', '#' * 100)
-    print(f'root_dir: {root_dir}')
-    print('#' * 100)
-
     assert ptg._tree_built is False
     ptg._build_tree(root_dir, relative_paths=True)
     assert ptg._tree_built is True
