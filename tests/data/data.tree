@@ -1,11 +1,10 @@
 [data]
 ├── data.json
 ├── data.tree
-├── data2.tree
 ├── [myDirectory-1]
-│   ├── [subdirectory]
-│   │   └── green.gif
-│   └── myFile.txt
+│   ├── myFile.txt
+│   └── [subdirectory]
+│       └── green.gif
 └── [myDirectory-2]
     ├── [subdirectory1]
     │   └── green.gif
