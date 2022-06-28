@@ -145,7 +145,9 @@ def test_ptg_get_tree(shared_datadir):
     ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree(), list)
+    assert isinstance(ptg.get_tree(), ListEntry)
+    assert isinstance(ptg.get_tree(wrap_with_root_dir=True), ListEntry)
+    assert isinstance(ptg.get_tree(wrap_with_root_dir=False), list)
     assert ptg._tree_built is True
 
 
@@ -183,5 +185,5 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     ptg = _PathTreeGenerator(root_dir=root_dir)
 
     assert ptg._tree_built is False
-    assert ptg.get_tree_human_readable_list(relative_paths=True) == expected_hr_tree
+    assert ptg.get_tree_human_readable_list(relative_paths=True, root_dir_name_only=True) == expected_hr_tree
     assert ptg._tree_built is True
