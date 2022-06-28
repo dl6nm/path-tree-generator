@@ -61,18 +61,23 @@ def test_ptg_add_file(path, expected_file_entry):
             ListEntry(
                 entry_type=ListEntryType.file,
                 name='data.json',
-                path=pathlib.Path('data/data.json')
+                path=pathlib.Path('data/data.json'),
             ),
             ListEntry(
                 entry_type=ListEntryType.file,
                 name='data.tree',
-                path=pathlib.Path('data/data.tree')
+                path=pathlib.Path('data/data.tree'),
             ),
             ListEntry(
                 entry_type=ListEntryType.dir,
                 name='myDirectory-1',
                 path=pathlib.Path('data/myDirectory-1'),
                 children=[
+                    ListEntry(
+                        entry_type=ListEntryType.file,
+                        name='myFile.txt',
+                        path=pathlib.Path('data/myDirectory-1/myFile.txt'),
+                    ),
                     ListEntry(
                         entry_type=ListEntryType.dir,
                         name='subdirectory',
@@ -81,16 +86,11 @@ def test_ptg_add_file(path, expected_file_entry):
                             ListEntry(
                                 entry_type=ListEntryType.file,
                                 name='green.gif',
-                                path=pathlib.Path('data/myDirectory-1/subdirectory/green.gif')
+                                path=pathlib.Path('data/myDirectory-1/subdirectory/green.gif'),
                             )
                         ]
                     ),
-                    ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='myFile.txt',
-                        path=pathlib.Path('data/myDirectory-1/myFile.txt')
-                    )
-                ]
+                ],
             ),
             ListEntry(
                 entry_type=ListEntryType.dir,
@@ -105,9 +105,9 @@ def test_ptg_add_file(path, expected_file_entry):
                             ListEntry(
                                 entry_type=ListEntryType.file,
                                 name='green.gif',
-                                path=pathlib.Path('data/myDirectory-2/subdirectory1/green.gif')
-                            )
-                        ]
+                                path=pathlib.Path('data/myDirectory-2/subdirectory1/green.gif'),
+                            ),
+                        ],
                     ),
                     ListEntry(
                         entry_type=ListEntryType.dir,
@@ -117,18 +117,18 @@ def test_ptg_add_file(path, expected_file_entry):
                             ListEntry(
                                 entry_type=ListEntryType.file,
                                 name='myFile.txt',
-                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile.txt')
+                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile.txt'),
                             ),
                             ListEntry(
                                 entry_type=ListEntryType.file,
                                 name='myFile2.txt',
-                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile2.txt')
-                            )
-                        ]
-                    )
-                ]
-            )
-        ]
+                                path=pathlib.Path('data/myDirectory-2/subdirectory2/myFile2.txt'),
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
     ],
 )
 def test_ptg_build_tree(shared_datadir, expected_tree):
