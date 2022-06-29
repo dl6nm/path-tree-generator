@@ -19,6 +19,11 @@
       "path": "data/myDirectory-1",
       "children": [
         {
+          "entry_type": "file",
+          "name": "myFile.txt",
+          "path": "data/myDirectory-1/myFile.txt"
+        },
+        {
           "entry_type": "dir",
           "name": "subdirectory",
           "path": "data/myDirectory-1/subdirectory",
@@ -29,11 +34,6 @@
               "path": "data/myDirectory-1/subdirectory/green.gif"
             }
           ]
-        },
-        {
-          "entry_type": "file",
-          "name": "myFile.txt",
-          "path": "data/myDirectory-1/myFile.txt"
         }
       ]
     },
