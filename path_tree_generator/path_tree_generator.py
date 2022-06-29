@@ -7,19 +7,37 @@ from .models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
-    def __init__(self, root_dir: str | pathlib.Path):
+    def __init__(
+            self,
+            root_dir: str | pathlib.Path,
+            relative_paths=True,
+            wrap_with_root_dir=True,
+    ):
+        self.root_dir = root_dir
         if isinstance(root_dir, str):
-            root_dir = pathlib.Path(root_dir)
+            self.root_dir = pathlib.Path(root_dir)
+
         self._generator = _PathTreeGenerator(root_dir=root_dir)
+        self._relative_paths = relative_paths
+        self._wrap_with_root_dir = wrap_with_root_dir
 
     def dict(self):
-        return self._generator.get_tree().dict()
+        return self._generator.get_tree(
+            relative_paths=self._relative_paths,
+            wrap_with_root_dir=self._wrap_with_root_dir,
+        ).dict()
 
     def json(self):
-        return self._generator.get_tree().json()
+        return self._generator.get_tree(
+            relative_paths=self._relative_paths,
+            wrap_with_root_dir=self._wrap_with_root_dir,
+        ).json()
 
     def human_readable(self):
-        return self._generator.get_tree_human_readable_list()
+        return self._generator.get_tree_human_readable_list(
+            relative_paths=self._relative_paths,
+            root_dir_name_only=True,
+        )
 
 
 class _PathTreeGenerator:
@@ -43,10 +61,15 @@ class _PathTreeGenerator:
     def get_tree(self, relative_paths=True, wrap_with_root_dir=True) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir, relative_paths=relative_paths)
         if wrap_with_root_dir:
+            if relative_paths:
+                path = self._root_dir.relative_to(self._root_dir)
+            else:
+                path = self._root_dir
+
             return ListEntry(
                 entry_type=ListEntryType.dir,
                 name=self._root_dir.name,
-                path=self._root_dir,
+                path=path,
                 children=self._tree_list,
             )
         return self._tree_list
