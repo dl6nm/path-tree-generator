@@ -21,11 +21,16 @@ class PathTree:
         self._relative_paths = relative_paths
         self._wrap_with_root_dir = wrap_with_root_dir
 
-    def dict(self):
-        return self._generator.get_tree(
+    def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+        tree = self._generator.get_tree(
             relative_paths=self._relative_paths,
             wrap_with_root_dir=self._wrap_with_root_dir,
-        ).dict()
+        )
+        return tree.dict(
+            exclude_unset=exclude_unset,
+            exclude_defaults=exclude_defaults,
+            exclude_none=exclude_none
+        )
 
     def json(self):
         tree = self._generator.get_tree(self._relative_paths, self._wrap_with_root_dir)
