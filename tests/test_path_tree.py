@@ -16,10 +16,13 @@ def test_path_tree_dict(shared_datadir):
 
 
 def test_path_tree_json(shared_datadir):
-    pt = PathTree(root_dir=shared_datadir)
+    pt = PathTree(root_dir=shared_datadir, paths_as_posix=True)
+    tree_json = json.loads(pt.json(exclude_unset=True))
+
     data_file = (shared_datadir/'data.json')
     data = json.load(data_file.open(encoding='utf-8'))
-    assert pt.json() == data
+
+    assert tree_json == data
 
 
 @pytest.mark.parametrize(
