@@ -23,6 +23,8 @@ class PathTree:
 
         self._generator = _PathTreeGenerator(
             root_dir=self.root_dir,
+            relative_paths=self._relative_paths,
+            wrap_with_root_dir=self._wrap_with_root_dir,
             paths_as_posix=self._paths_as_posix,
         )
 
