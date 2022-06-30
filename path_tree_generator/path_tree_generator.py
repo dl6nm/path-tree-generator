@@ -12,38 +12,38 @@ class PathTree:
             root_dir: str | pathlib.Path,
             relative_paths=True,
             wrap_with_root_dir=True,
+            paths_as_posix=False,
     ):
         self.root_dir = root_dir
         if isinstance(root_dir, str):
             self.root_dir = pathlib.Path(root_dir)
-
-        self._generator = _PathTreeGenerator(root_dir=self.root_dir)
         self._relative_paths = relative_paths
         self._wrap_with_root_dir = wrap_with_root_dir
+        self._paths_as_posix = paths_as_posix
+
+        self._generator = _PathTreeGenerator(
+            root_dir=self.root_dir,
+            paths_as_posix=self._paths_as_posix,
+        )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
-        tree = self._generator.get_tree(
-            relative_paths=self._relative_paths,
-            wrap_with_root_dir=self._wrap_with_root_dir,
-        )
+        tree = self._generator.get_tree()
         return tree.dict(
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
-            exclude_none=exclude_none
+            exclude_none=exclude_none,
         )
 
-    def json(self):
-        tree = self._generator.get_tree(
-            relative_paths=self._relative_paths,
-            wrap_with_root_dir=self._wrap_with_root_dir,
+    def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+        tree = self._generator.get_tree()
+        return tree.json(
+            exclude_unset=exclude_unset,
+            exclude_defaults=exclude_defaults,
+            exclude_none=exclude_none,
         )
-        return tree.json()
 
     def human_readable(self):
-        return self._generator.get_tree_human_readable_list(
-            relative_paths=self._relative_paths,
-            root_dir_name_only=True,
-        )
+        return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
 
 
 class _PathTreeGenerator:
@@ -56,22 +56,28 @@ class _PathTreeGenerator:
     PIPE_PREFIX = "│   "
     SPACE_PREFIX = "    "
 
-    def __init__(self, root_dir: pathlib.Path):
+    def __init__(
+            self,
+            root_dir: pathlib.Path,
+            relative_paths=True,
+            wrap_with_root_dir=True,
+            paths_as_posix=False,
+    ):
         self._root_dir = root_dir
+        self._relative_paths = relative_paths
+        self._wrap_with_root_dir = wrap_with_root_dir
+        self._paths_as_posix = paths_as_posix
+
         self._tree_list: list[ListEntry] = []
         self._tree_dict: dict[ListEntry] = {}
         self._tree_built = False
         self._hr_tree_list: list[str] = []
         self._hr_tree_built = False
 
-    def get_tree(self, relative_paths=True, wrap_with_root_dir=True, paths_as_posix=False) -> ListEntry | list[ListEntry]:
-        self._build_tree(
-            self._root_dir,
-            relative_paths=relative_paths,
-            paths_as_posix=paths_as_posix
-        )
-        if wrap_with_root_dir:
-            if relative_paths:
+    def get_tree(self) -> ListEntry | list[ListEntry]:
+        self._build_tree(self._root_dir)
+        if self._wrap_with_root_dir:
+            if self._relative_paths:
                 path = self._root_dir.relative_to(self._root_dir)
             else:
                 path = self._root_dir
@@ -84,47 +90,37 @@ class _PathTreeGenerator:
             )
         return self._tree_list
 
-    def _build_tree(self, path: pathlib.Path, relative_paths=True, paths_as_posix=False):
+    def _build_tree(self, path: pathlib.Path):
         if self._tree_built:
             return
-        if relative_paths:
+        if self._relative_paths:
             entries = self._prepare_entries(
                 path=path.relative_to(path.parent),
-                paths_as_posix=paths_as_posix,
             )
         else:
-            entries = self._prepare_entries(
-                path=path,
-                paths_as_posix=paths_as_posix
-            )
+            entries = self._prepare_entries(path)
 
         if entries:
             self._tree_list = entries
 
         self._tree_built = True
 
-    def _prepare_entries(self, path: pathlib.Path, paths_as_posix=False) -> list[ListEntry] | None:
+    def _prepare_entries(self, path: pathlib.Path) -> list[ListEntry] | None:
         entries: list[ListEntry] = []
         if path.is_dir():
             for entry in path.iterdir():
                 if entry.is_dir():
                     entries.append(
-                        self._get_dir_entry(
-                            path=entry,
-                            paths_as_posix=paths_as_posix,
-                        )
+                        self._get_dir_entry(entry)
                     )
                 if entry.is_file():
                     entries.append(
-                        self._get_file_entry(
-                            path=entry,
-                            paths_as_posix=paths_as_posix,
-                        )
+                        self._get_file_entry(entry)
                     )
         if entries:
             return entries
 
-    def _get_dir_entry(self, path: pathlib.Path, paths_as_posix=False):
+    def _get_dir_entry(self, path: pathlib.Path):
         return ListEntry(
             entry_type=ListEntryType.dir,
             name=path.name,
@@ -132,15 +128,15 @@ class _PathTreeGenerator:
             children=self._prepare_entries(path),
         )
 
-    def _get_file_entry(self, path: pathlib.Path, paths_as_posix=False):
+    def _get_file_entry(self, path: pathlib.Path):
         return ListEntry(
             entry_type=ListEntryType.file,
             name=path.name,
             path=path,
         )
 
-    def get_tree_human_readable_list(self, relative_paths=True, root_dir_name_only=True) -> list[str]:
-        self._build_tree(self._root_dir, relative_paths=relative_paths)
+    def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
+        self._build_tree(self._root_dir)
         self._build_hr_tree(root_dir_name_only=root_dir_name_only)
         return self._hr_tree_list
 
