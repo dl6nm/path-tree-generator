@@ -17,7 +17,7 @@ class PathTree:
         if isinstance(root_dir, str):
             self.root_dir = pathlib.Path(root_dir)
 
-        self._generator = _PathTreeGenerator(root_dir=root_dir)
+        self._generator = _PathTreeGenerator(root_dir=self.root_dir)
         self._relative_paths = relative_paths
         self._wrap_with_root_dir = wrap_with_root_dir
 
