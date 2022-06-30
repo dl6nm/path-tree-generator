@@ -144,8 +144,6 @@ class _PathTreeGenerator:
         if self._paths_as_posix:
             path = path.as_posix()
 
-        print('***   ', type(path), path, '   ***')
-
         entry = ListEntry(
             entry_type=ListEntryType.file,
             name=path_name,
