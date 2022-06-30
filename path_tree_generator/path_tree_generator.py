@@ -28,10 +28,8 @@ class PathTree:
         ).dict()
 
     def json(self):
-        return self._generator.get_tree(
-            relative_paths=self._relative_paths,
-            wrap_with_root_dir=self._wrap_with_root_dir,
-        ).json()
+        tree = self._generator.get_tree(self._relative_paths, self._wrap_with_root_dir)
+        return tree.json()
 
     def human_readable(self):
         return self._generator.get_tree_human_readable_list(
