@@ -2,6 +2,12 @@
 
 Generating a linux (console) like tree for humans, with the ability for converting it to json
 
+    from path_tree_generator import PathTree
+    pt = PathTree('/my/path/to/generate')
+    print(
+        pt.human_readable()
+    )
+
 ## :construction: NOT WORKING YET :construction:
 
 :warning: CURRENTLY THIS PACKAGE IS UNDER HEAVY DEVELOPMENT AND NOT WORKING YET! :warning:
