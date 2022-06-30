@@ -172,7 +172,12 @@ class _PathTreeGenerator:
                 self._hr_add_file(entry, prefix, connector)
 
     def _hr_add_directory(
-        self, entry: ListEntry, index, entries_count, prefix, connector
+            self,
+            entry: ListEntry,
+            index,
+            entries_count,
+            prefix,
+            connector,
     ):
         self._hr_tree_list.append(
             f'{prefix}{connector} {self.HR_DIR_PREFIX}{entry.name}{self.HR_DIR_SUFFIX}'
@@ -190,5 +195,10 @@ class _PathTreeGenerator:
             )
         # self._hr_tree_list.append(prefix.rstrip())
 
-    def _hr_add_file(self, file, prefix, connector):
+    def _hr_add_file(
+            self,
+            file,
+            prefix,
+            connector
+    ):
         self._hr_tree_list.append(f'{prefix}{connector} {file.name}')
