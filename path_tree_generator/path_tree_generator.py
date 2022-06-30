@@ -83,12 +83,15 @@ class _PathTreeGenerator:
             else:
                 path = self._root_dir
 
-            return ListEntry(
+            if self._paths_as_posix:
+                path = path.as_posix()
+            entry = ListEntry(
                 entry_type=ListEntryType.dir,
                 name=self._root_dir.name,
                 path=path,
                 children=self._tree_list,
             )
+            return entry
         return self._tree_list
 
     def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
