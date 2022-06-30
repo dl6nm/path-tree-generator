@@ -49,7 +49,6 @@ class PathTree:
 
 
 class _PathTreeGenerator:
-
     HR_DIR_PREFIX = "["
     HR_DIR_SUFFIX = "]"
     PIPE = "│"
@@ -128,19 +127,31 @@ class _PathTreeGenerator:
             return entries
 
     def _get_dir_entry(self, path: pathlib.Path):
-        return ListEntry(
+        _path = path
+        path_name = path.name
+        if self._paths_as_posix:
+            path = path.as_posix()
+        entry = ListEntry(
             entry_type=ListEntryType.dir,
-            name=path.name,
+            name=path_name,
             path=path,
-            children=self._prepare_entries(path),
+            children=self._prepare_entries(_path),
         )
+        return entry
 
     def _get_file_entry(self, path: pathlib.Path):
-        return ListEntry(
+        path_name = path.name
+        if self._paths_as_posix:
+            path = path.as_posix()
+
+        print('***   ', type(path), path, '   ***')
+
+        entry = ListEntry(
             entry_type=ListEntryType.file,
-            name=path.name,
+            name=path_name,
             path=path,
         )
+        return entry
 
     def _build_hr_tree(self, root_dir_name_only=True):
         if self._hr_tree_built:
