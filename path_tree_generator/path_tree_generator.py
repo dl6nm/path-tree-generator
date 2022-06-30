@@ -92,6 +92,11 @@ class _PathTreeGenerator:
             )
         return self._tree_list
 
+    def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
+        self._build_tree(self._root_dir)
+        self._build_hr_tree(root_dir_name_only=root_dir_name_only)
+        return self._hr_tree_list
+
     def _build_tree(self, path: pathlib.Path):
         if self._tree_built:
             return
@@ -136,11 +141,6 @@ class _PathTreeGenerator:
             name=path.name,
             path=path,
         )
-
-    def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
-        self._build_tree(self._root_dir)
-        self._build_hr_tree(root_dir_name_only=root_dir_name_only)
-        return self._hr_tree_list
 
     def _build_hr_tree(self, root_dir_name_only=True):
         if self._hr_tree_built:
