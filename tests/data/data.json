@@ -1,0 +1,77 @@
+{
+  "entry_type": "dir",
+  "name": "data",
+  "path": ".",
+  "children": [
+    {
+      "entry_type": "file",
+      "name": "data.json",
+      "path": "data/data.json"
+    },
+    {
+      "entry_type": "file",
+      "name": "data.tree",
+      "path": "data/data.tree"
+    },
+    {
+      "entry_type": "dir",
+      "name": "myDirectory-1",
+      "path": "data/myDirectory-1",
+      "children": [
+        {
+          "entry_type": "dir",
+          "name": "subdirectory",
+          "path": "data/myDirectory-1/subdirectory",
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "green.gif",
+              "path": "data/myDirectory-1/subdirectory/green.gif"
+            }
+          ]
+        },
+        {
+          "entry_type": "file",
+          "name": "myFile.txt",
+          "path": "data/myDirectory-1/myFile.txt"
+        }
+      ]
+    },
+    {
+      "entry_type": "dir",
+      "name": "myDirectory-2",
+      "path": "data/myDirectory-2",
+      "children": [
+        {
+          "entry_type": "dir",
+          "name": "subdirectory1",
+          "path": "data/myDirectory-2/subdirectory1",
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "green.gif",
+              "path": "data/myDirectory-2/subdirectory1/green.gif"
+            }
+          ]
+        },
+        {
+          "entry_type": "dir",
+          "name": "subdirectory2",
+          "path": "data/myDirectory-2/subdirectory2",
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "myFile.txt",
+              "path": "data/myDirectory-2/subdirectory2/myFile.txt"
+            },
+            {
+              "entry_type": "file",
+              "name": "myFile2.txt",
+              "path": "data/myDirectory-2/subdirectory2/myFile2.txt"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

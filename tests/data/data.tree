@@ -1,0 +1,13 @@
+[data]
+├── data.json
+├── data.tree
+├── [myDirectory-1]
+│   ├── myFile.txt
+│   └── [subdirectory]
+│       └── green.gif
+└── [myDirectory-2]
+    ├── [subdirectory1]
+    │   └── green.gif
+    └── [subdirectory2]
+        ├── myFile.txt
+        └── myFile2.txt
