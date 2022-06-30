@@ -50,9 +50,20 @@ def test_list_entry(_type, name, path, size_bytes):
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
                     ),
                     ListEntry(
+                        entry_type=ListEntryType.dir,
+                        name='mySubDir',
+                        path='/path/to/directoryWithChildren/mySubDir',
+                    ),
+                    ListEntry(
                         entry_type=ListEntryType.file,
                         name='mySubDirFile.jpg',
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
+                        size_bytes=987654,
+                    ),
+                    ListEntry(
+                        entry_type=ListEntryType.file,
+                        name='mySubDirFile.jpg',
+                        path='/path/to/directoryWithChildren/mySubDirFile.jpg',
                         size_bytes=987654,
                     ),
                 ],
@@ -60,7 +71,18 @@ def test_list_entry(_type, name, path, size_bytes):
                     {
                         'entry_type': 'dir',
                         'name': 'mySubDir',
+                        'path': pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
+                    },
+                    {
+                        'entry_type': 'dir',
+                        'name': 'mySubDir',
                         'path': '/path/to/directoryWithChildren/mySubDir',
+                    },
+                    {
+                        'entry_type': 'file',
+                        'name': 'mySubDirFile.jpg',
+                        'path': pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
+                        'size_bytes': 987654,
                     },
                     {
                         'entry_type': 'file',
