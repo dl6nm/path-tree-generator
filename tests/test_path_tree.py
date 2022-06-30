@@ -7,7 +7,10 @@ from path_tree_generator.models.list_entries import ListEntry
 
 
 def test_path_tree_dict(shared_datadir):
-    pt = PathTree(root_dir=shared_datadir)
+    pt = PathTree(
+        root_dir=shared_datadir,
+        paths_as_posix=True,
+    )
 
     data_file = (shared_datadir/'data.json')
     expected_dict = ListEntry.parse_file(data_file)
@@ -16,7 +19,11 @@ def test_path_tree_dict(shared_datadir):
 
 
 def test_path_tree_json(shared_datadir):
-    pt = PathTree(root_dir=shared_datadir, paths_as_posix=True)
+    pt = PathTree(
+        root_dir=shared_datadir,
+        paths_as_posix=True,
+    )
+
     tree_json = json.loads(pt.json(exclude_unset=True))
 
     data_file = (shared_datadir/'data.json')
