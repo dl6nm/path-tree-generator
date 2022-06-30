@@ -102,13 +102,8 @@ class _PathTreeGenerator:
     def _build_tree(self, path: pathlib.Path):
         if self._tree_built:
             return
-        if self._relative_paths:
-            entries = self._prepare_entries(
-                path=path.relative_to(path.parent),
-            )
-        else:
-            entries = self._prepare_entries(path)
 
+        entries = self._prepare_entries(path)
         if entries:
             self._tree_list = entries
 
@@ -132,8 +127,17 @@ class _PathTreeGenerator:
     def _get_dir_entry(self, path: pathlib.Path):
         _path = path
         path_name = path.name
+
+        # @fix: self._relative_paths
+        if self._relative_paths:
+            try:
+                path = path.relative_to(self._root_dir)
+            except ValueError:
+                path = path
+
         if self._paths_as_posix:
             path = path.as_posix()
+
         entry = ListEntry(
             entry_type=ListEntryType.dir,
             name=path_name,
@@ -144,9 +148,17 @@ class _PathTreeGenerator:
 
     def _get_file_entry(self, path: pathlib.Path):
         path_name = path.name
+
+        if self._relative_paths:
+            try:
+                path = path.relative_to(self._root_dir)
+            except ValueError:
+                path = path
+
         if self._paths_as_posix:
             path = path.as_posix()
 
+        # @fix: self._relative_paths
         entry = ListEntry(
             entry_type=ListEntryType.file,
             name=path_name,
