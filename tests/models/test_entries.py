@@ -15,11 +15,11 @@ def test_list_entry_type():
 @pytest.mark.parametrize(
     argnames=['_type', 'name', 'path', 'size_bytes'],
     argvalues=[
-        ('dir', 'myDirectory', '/path/to/myDirectory', 0),
-        ('dir', 'mySecondDirectory', '/path/to/mySecondDirectory', 0),
-        ('file', 'my.log', '/path/to/my.log', 54321),
-        ('file', 'my.pdf', '/path/to/my.pdf', 12345),
-        ('file', 'mySecond.pdf', '/path/to/mySecond.pdf', None),
+        ('dir', 'myDirectory', pathlib.Path('/path/to/myDirectory'), 0),
+        ('dir', 'mySecondDirectory', pathlib.Path('/path/to/mySecondDirectory'), 0),
+        ('file', 'my.log', pathlib.Path('/path/to/my.log'), 54321),
+        ('file', 'my.pdf', pathlib.Path('/path/to/my.pdf'), 12345),
+        ('file', 'mySecond.pdf', pathlib.Path('/path/to/mySecond.pdf'), None),
     ],
     ids=['myDirectory', 'mySecondDirectory', 'my.log', 'my.pdf', 'mySecond.pdf'],
 )
@@ -50,9 +50,20 @@ def test_list_entry(_type, name, path, size_bytes):
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
                     ),
                     ListEntry(
+                        entry_type=ListEntryType.dir,
+                        name='mySubDir',
+                        path='/path/to/directoryWithChildren/mySubDir',
+                    ),
+                    ListEntry(
                         entry_type=ListEntryType.file,
                         name='mySubDirFile.jpg',
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
+                        size_bytes=987654,
+                    ),
+                    ListEntry(
+                        entry_type=ListEntryType.file,
+                        name='mySubDirFile.jpg',
+                        path='/path/to/directoryWithChildren/mySubDirFile.jpg',
                         size_bytes=987654,
                     ),
                 ],
@@ -60,7 +71,18 @@ def test_list_entry(_type, name, path, size_bytes):
                     {
                         'entry_type': 'dir',
                         'name': 'mySubDir',
+                        'path': pathlib.Path('/path/to/directoryWithChildren/mySubDir'),
+                    },
+                    {
+                        'entry_type': 'dir',
+                        'name': 'mySubDir',
                         'path': '/path/to/directoryWithChildren/mySubDir',
+                    },
+                    {
+                        'entry_type': 'file',
+                        'name': 'mySubDirFile.jpg',
+                        'path': pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
+                        'size_bytes': 987654,
                     },
                     {
                         'entry_type': 'file',

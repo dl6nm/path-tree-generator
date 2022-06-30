@@ -7,18 +7,28 @@ from path_tree_generator.models.list_entries import ListEntry
 
 
 def test_path_tree_dict(shared_datadir):
-    pt = PathTree(root_dir=shared_datadir)
+    pt = PathTree(
+        root_dir=shared_datadir,
+        paths_as_posix=True,
+    )
+
     data_file = (shared_datadir/'data.json')
-    # data = json.load(data_file.open(encoding='utf-8'))
     expected_dict = ListEntry.parse_file(data_file)
+
     assert pt.dict() == expected_dict.dict()
 
 
 def test_path_tree_json(shared_datadir):
-    pt = PathTree(root_dir=shared_datadir)
+    pt = PathTree(
+        root_dir=shared_datadir,
+        paths_as_posix=True,
+    )
+    tree_json = json.loads(pt.json(exclude_unset=True))
+
     data_file = (shared_datadir/'data.json')
-    data = json.load(data_file.open(encoding='utf-8'))
-    assert pt.json() == data
+    expected_json = json.load(data_file.open(encoding='utf-8'))
+
+    assert tree_json == expected_json
 
 
 @pytest.mark.parametrize(
