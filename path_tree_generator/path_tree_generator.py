@@ -7,6 +7,7 @@ from .models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
+    # @feat: Implement "better" getter methods, name them accordingly...
     def __init__(
             self,
             root_dir: str | pathlib.Path,
@@ -29,6 +30,7 @@ class PathTree:
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+        # @fix: AttributeError: 'list' object has no attribute 'dict', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.dict(
             exclude_unset=exclude_unset,
@@ -37,6 +39,7 @@ class PathTree:
         )
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+        # @fix: AttributeError: 'list' object has no attribute 'json', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.json(
             exclude_unset=exclude_unset,
@@ -128,7 +131,6 @@ class _PathTreeGenerator:
         _path = path
         path_name = path.name
 
-        # @fix: self._relative_paths
         if self._relative_paths:
             try:
                 path = path.relative_to(self._root_dir)
@@ -158,7 +160,6 @@ class _PathTreeGenerator:
         if self._paths_as_posix:
             path = path.as_posix()
 
-        # @fix: self._relative_paths
         entry = ListEntry(
             entry_type=ListEntryType.file,
             name=path_name,
