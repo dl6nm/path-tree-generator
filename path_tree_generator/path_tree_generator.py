@@ -12,25 +12,21 @@ class PathTree:
             self,
             root_dir: str | pathlib.Path,
             relative_paths=True,
-            wrap_with_root_dir=True,
             paths_as_posix=False,
     ):
         self.root_dir = root_dir
         if isinstance(root_dir, str):
             self.root_dir = pathlib.Path(root_dir)
         self._relative_paths = relative_paths
-        self._wrap_with_root_dir = wrap_with_root_dir
         self._paths_as_posix = paths_as_posix
 
         self._generator = _PathTreeGenerator(
             root_dir=self.root_dir,
             relative_paths=self._relative_paths,
-            wrap_with_root_dir=self._wrap_with_root_dir,
             paths_as_posix=self._paths_as_posix,
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
-        # @fix: AttributeError: 'list' object has no attribute 'dict', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.dict(
             exclude_unset=exclude_unset,
@@ -39,7 +35,6 @@ class PathTree:
         )
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
-        # @fix: AttributeError: 'list' object has no attribute 'json', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.json(
             exclude_unset=exclude_unset,
@@ -64,12 +59,10 @@ class _PathTreeGenerator:
             self,
             root_dir: pathlib.Path,
             relative_paths=True,
-            wrap_with_root_dir=True,
             paths_as_posix=False,
     ):
         self._root_dir = root_dir
         self._relative_paths = relative_paths
-        self._wrap_with_root_dir = wrap_with_root_dir
         self._paths_as_posix = paths_as_posix
 
         self._tree_list: list[ListEntry] = []
@@ -80,22 +73,21 @@ class _PathTreeGenerator:
 
     def get_tree(self) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir)
-        if self._wrap_with_root_dir:
-            if self._relative_paths:
-                path = self._root_dir.relative_to(self._root_dir)
-            else:
-                path = self._root_dir
 
-            if self._paths_as_posix:
-                path = path.as_posix()
-            entry = ListEntry(
-                entry_type=ListEntryType.dir,
-                name=self._root_dir.name,
-                path=path,
-                children=self._tree_list,
-            )
-            return entry
-        return self._tree_list
+        if self._relative_paths:
+            path = self._root_dir.relative_to(self._root_dir)
+        else:
+            path = self._root_dir
+
+        if self._paths_as_posix:
+            path = path.as_posix()
+        entry = ListEntry(
+            entry_type=ListEntryType.dir,
+            name=self._root_dir.name,
+            path=path,
+            children=self._tree_list,
+        )
+        return entry
 
     def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
         self._build_tree(self._root_dir)
