@@ -6,7 +6,7 @@ authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/dl6nm/path-tree-generator"
-keywords = ["path", "directory", "tree", "generator", "json", "converter", "dir"]
+keywords = ["path", "tree", "generator", "json", "converter", "directory", "dir", "human-readable", "tree-like", "linux"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
