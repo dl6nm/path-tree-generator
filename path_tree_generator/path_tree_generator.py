@@ -7,26 +7,39 @@ from .models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
-    # @feat: Implement "better" getter methods, name them accordingly...
     def __init__(
             self,
             root_dir: str | pathlib.Path,
             relative_paths=True,
             paths_as_posix=False,
     ):
-        self.root_dir = root_dir
+        """ `PathTree` class for generating tree-like directory listings also for humans
+        and output them as `str`, `list[str]`, `dict` or `json`.
+
+        :param root_dir: Root directory, from where to start the tree generator.
+        :param relative_paths: Generate relative paths bases on the root_dir, especially for dict and json.
+        :param paths_as_posix: Uses string representation of the paths with forward (/) slashes.
+        """
+        self._root_dir = root_dir
         if isinstance(root_dir, str):
-            self.root_dir = pathlib.Path(root_dir)
+            self._root_dir = pathlib.Path(root_dir)
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
 
         self._generator = _PathTreeGenerator(
-            root_dir=self.root_dir,
+            root_dir=self._root_dir,
             relative_paths=self._relative_paths,
             paths_as_posix=self._paths_as_posix,
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
+        """ `dict` representation of a dictionary tree
+
+        :param exclude_unset: Whether fields which were not set should be excluded
+        :param exclude_defaults: Whether fields which are equal to their default values should be excluded.
+        :param exclude_none: Whether fields which are equal to None should be excluded.
+        :return: A dict
+        """
         tree = self._generator.get_tree()
         return tree.dict(
             exclude_unset=exclude_unset,
@@ -36,6 +49,13 @@ class PathTree:
     get_dict = dict
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
+        """ `json` representation of a dictionary tree
+
+        :param exclude_unset: Whether fields which were not set should be excluded
+        :param exclude_defaults: Whether fields which are equal to their default values should be excluded.
+        :param exclude_none: Whether fields which are equal to None should be excluded.
+        :return: A json string
+        """
         tree = self._generator.get_tree()
         return tree.json(
             exclude_unset=exclude_unset,
@@ -45,10 +65,18 @@ class PathTree:
     get_json = json
 
     def human_readable(self) -> str:
+        """ Human readable string representation of a dictionary tree
+
+        :return: A string
+        """
         return self._generator.get_tree_human_readable(root_dir_name_only=True)
     get_human_readable = human_readable
 
     def human_readable_list(self) -> list:
+        """ Human readable string list representation of a dictionary tree
+
+        :return: A list of strings
+        """
         return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
     get_human_readable_list = human_readable_list
 
