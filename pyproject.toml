@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "path-tree-generator"
-version = "0.0.1-alpha.4"
+version = "0.0.1-alpha.5"
 description = "Generating a linux (console) like path tree for humans, with the ability for converting it to json"
 authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"

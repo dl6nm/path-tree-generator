@@ -142,19 +142,11 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
 
 
 def test_ptg_get_tree_with_root_dir(shared_datadir):
-    ptg = _PathTreeGenerator(root_dir=shared_datadir, wrap_with_root_dir=True)
+    ptg = _PathTreeGenerator(root_dir=shared_datadir)
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
     assert isinstance(ptg.get_tree(), ListEntry)
     assert isinstance(ptg.get_tree(), ListEntry)
-    assert ptg._tree_built is True
-
-
-def test_ptg_get_tree_without_root_dir(shared_datadir):
-    ptg = _PathTreeGenerator(root_dir=shared_datadir, wrap_with_root_dir=False)
-    assert isinstance(ptg, _PathTreeGenerator)
-    assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree(), list)
     assert ptg._tree_built is True
 
 
