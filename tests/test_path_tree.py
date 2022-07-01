@@ -62,14 +62,17 @@ def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
     actual_data = pt.human_readable()
     assert actual_data == expected_hr_tree
 
+    get_hr_data = pt.get_human_readable()
+    assert get_hr_data == actual_data
+
     data_file = (shared_datadir/'data.tree')
     expected_data = data_file.open(encoding='utf-8').read()
 
-    actual_data += '\n'  # append an empty line for getting rid of a line-break problem while testing
+    # append an empty line to 'actual_data' and 'get_hr_data'
+    # for getting rid of a line-break problem while testing
+    actual_data += '\n'
+    get_hr_data += '\n'
     assert actual_data == expected_data
-
-    get_hr_data = pt.get_human_readable()
-    assert get_hr_data == actual_data
     assert get_hr_data == expected_data
 
 
@@ -100,15 +103,18 @@ def test_path_tree_human_readable_list(shared_datadir, expected_hr_tree):
     actual_data = pt.human_readable_list()
     assert actual_data == expected_hr_tree
 
+    get_hr_list = pt.get_human_readable_list()
+    assert get_hr_list == expected_hr_tree
+
+    assert get_hr_list == actual_data
+
     data_file = (shared_datadir/'data.tree')
     expected_data = data_file.open(encoding='utf-8').read()
 
-    actual_data.append('')  # append an empty line for getting rid of a line-break problem while testing
+    # append an empty line to 'actual_data'
+    # for getting rid of a line-break problem while testing
+    actual_data.append('')
     assert '\n'.join(actual_data) == expected_data
-
-    get_hr_list = pt.get_human_readable_list()
-    assert get_hr_list == expected_hr_tree
-    assert get_hr_list == actual_data
     assert '\n'.join(get_hr_list) == expected_data
 
 
