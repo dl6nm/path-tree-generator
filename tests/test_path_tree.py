@@ -33,6 +33,35 @@ def test_path_tree_json(shared_datadir):
 
 @pytest.mark.parametrize(
     argnames='expected_hr_tree',
+    argvalues=["""[data]
+├── data.json
+├── data.tree
+├── [myDirectory-1]
+│   ├── myFile.txt
+│   └── [subdirectory]
+│       └── green.gif
+└── [myDirectory-2]
+    ├── [subdirectory1]
+    │   └── green.gif
+    └── [subdirectory2]
+        ├── myFile.txt
+        └── myFile2.txt"""],
+    ids=['human readable'],
+)
+def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
+    pt = PathTree(root_dir=shared_datadir)
+    assert pt.human_readable() == expected_hr_tree
+
+    data_file = (shared_datadir/'data.tree')
+    expected_data = data_file.open(encoding='utf-8').read()
+
+    actual_data = pt.human_readable()
+    actual_data.append('')  # append an empty line for getting rid of a line-break problem while testing
+    assert '\n'.join(actual_data) == expected_data
+
+
+@pytest.mark.parametrize(
+    argnames='expected_hr_tree',
     argvalues=[
         [
             '[data]',
@@ -52,15 +81,15 @@ def test_path_tree_json(shared_datadir):
     ],
     ids=['human readable']
 )
-def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
+def test_path_tree_human_readable_list(shared_datadir, expected_hr_tree):
     pt = PathTree(root_dir=shared_datadir)
 
-    assert pt.human_readable() == expected_hr_tree
+    assert pt.human_readable_list() == expected_hr_tree
 
     data_file = (shared_datadir/'data.tree')
     expected_data = data_file.open(encoding='utf-8').read()
 
-    actual_data = pt.human_readable()
+    actual_data = pt.human_readable_list()
     actual_data.append('')  # append an empty line for getting rid of a line-break problem while testing
     assert '\n'.join(actual_data) == expected_data
 
@@ -95,4 +124,15 @@ def test_path_tree_human_readable_parameters(relative_paths, paths_as_posix):
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
     )
-    assert isinstance(pt.human_readable(), list)
+    assert isinstance(pt.human_readable(), str)
+
+
+@pytest.mark.parametrize('relative_paths', [True, False])
+@pytest.mark.parametrize('paths_as_posix', [True, False])
+def test_path_tree_human_readable_list_parameters(relative_paths, paths_as_posix):
+    pt = PathTree(
+        root_dir='/not/relevant/for/this/test',
+        relative_paths=relative_paths,
+        paths_as_posix=paths_as_posix,
+    )
+    assert isinstance(pt.human_readable_list(), list)
