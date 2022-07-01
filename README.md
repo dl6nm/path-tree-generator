@@ -33,7 +33,6 @@ might change anytime during development till the first official release 1.0.0.
 - [License](#license)
 - [Known Issues](#known-issues)
 
-
 ## Requirements
 
 [Python 3.10][python]+
@@ -75,7 +74,7 @@ Directories are wrapped in square brackets, files aren't.
 
 ## Support
 
-If you're opening issues, please mention the version that the issue relates to. 
+If you're opening [issues][issue-tracker], please mention the version that the issue relates to. 
 
 ## Contributing
 
@@ -88,11 +87,11 @@ This project is licensed under the terms of the MIT license.
 ## Known Issues
 
 - Python version compatibility < v3.10 is not tested yet
-- Human-readable directory-tree is not implemented as string representation yet
 - Getter methods aren't named perfectly, this will be solved in a future version
-- Tests are not fully
+- Not all tests are fully implemented yet
 
 
 
+[issue-tracker]: https://github.com/dl6nm/path-tree-generator/issues
 [pydantic]: https://pydantic-docs.helpmanual.io/
 [python]: https://www.python.org/
