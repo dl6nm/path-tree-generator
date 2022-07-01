@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "path-tree-generator"
-version = "0.0.1-alpha.5"
-description = "Generating a linux (console) like path tree for humans, with the ability for converting it to json"
+version = "0.0.1"
+description = "Generate human-readable directory listings in a tree-like format as `list[str]`, `dict` or `json`"
 authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/dl6nm/path-tree-generator"
-keywords = ["path", "tree", "generator", "json", "converter"]
+keywords = ["path", "directory", "tree", "generator", "json", "converter", "dir"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",

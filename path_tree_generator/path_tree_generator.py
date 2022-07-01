@@ -42,7 +42,11 @@ class PathTree:
             exclude_none=exclude_none,
         )
 
-    def human_readable(self) -> list:
+    def human_readable(self) -> str:
+        return self._generator.get_tree_human_readable(root_dir_name_only=True)
+
+
+    def human_readable_list(self) -> list:
         return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
 
 
@@ -89,8 +93,11 @@ class _PathTreeGenerator:
         )
         return entry
 
+    def get_tree_human_readable(self, root_dir_name_only=True) -> str:
+        self._build_hr_tree(root_dir_name_only=root_dir_name_only)
+        return '\n'.join(self._hr_tree_list)
+
     def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
-        self._build_tree(self._root_dir)
         self._build_hr_tree(root_dir_name_only=root_dir_name_only)
         return self._hr_tree_list
 
@@ -160,6 +167,7 @@ class _PathTreeGenerator:
         return entry
 
     def _build_hr_tree(self, root_dir_name_only=True):
+        self._build_tree(self._root_dir)
         if self._hr_tree_built:
             return
         self._hr_tree_head(root_dir_name_only=root_dir_name_only)
