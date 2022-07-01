@@ -14,7 +14,7 @@ Generate tree-like directory listings also for humans, output them as `str`, `li
 
 :warning: CURRENTLY THIS PACKAGE IS UNDER HEAVY DEVELOPMENT AND NOT FULLY IMPLEMENTED YET! :warning:
 
-The fist working (early) version is released as **path-tree-generator v0.0.1** 
+The fist working (early) version is released as **path-tree-generator v0.0.2** 
 and contains the most base implementations.
 
 [More to come for **path-tree-generator v0.1.0**:][issue-tracker]
