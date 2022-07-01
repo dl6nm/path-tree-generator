@@ -1,6 +1,6 @@
 # path-tree-generator
 
-Generating a linux (console) like tree for humans, with the ability for converting it to json
+Generate human-readable directory listings in a tree-like format as `list[str]`, `dict` or `json`
 
     from path_tree_generator import PathTree
     pt = PathTree('/my/path/to/generate')
