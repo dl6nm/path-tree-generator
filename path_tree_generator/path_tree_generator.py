@@ -13,14 +13,14 @@ class PathTree:
             relative_paths=True,
             paths_as_posix=False,
     ):
-        self.root_dir = root_dir
+        self._root_dir = root_dir
         if isinstance(root_dir, str):
-            self.root_dir = pathlib.Path(root_dir)
+            self._root_dir = pathlib.Path(root_dir)
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
 
         self._generator = _PathTreeGenerator(
-            root_dir=self.root_dir,
+            root_dir=self._root_dir,
             relative_paths=self._relative_paths,
             paths_as_posix=self._paths_as_posix,
         )
