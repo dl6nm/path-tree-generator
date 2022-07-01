@@ -17,6 +17,8 @@ def test_path_tree_dict(shared_datadir):
     expected_dict = ListEntry.parse_file(data_file)
 
     assert pt.dict() == expected_dict.dict()
+    assert pt.dict() == pt.get_dict()
+    assert pt.get_dict() == expected_dict.dict()
 
 
 def test_path_tree_json(shared_datadir):
@@ -25,12 +27,16 @@ def test_path_tree_json(shared_datadir):
         relative_paths=True,
         paths_as_posix=True,
     )
-    tree_json = json.loads(pt.json(exclude_unset=True))
 
     data_file = (shared_datadir/'data.json')
     expected_json = json.load(data_file.open(encoding='utf-8'))
 
+    tree_json = json.loads(pt.json(exclude_unset=True))
     assert tree_json == expected_json
+
+    tree_get_json = json.loads(pt.get_json(exclude_unset=True))
+    assert tree_get_json == tree_json
+    assert tree_get_json == expected_json
 
 
 @pytest.mark.parametrize(
@@ -52,8 +58,8 @@ def test_path_tree_json(shared_datadir):
 )
 def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
     pt = PathTree(root_dir=shared_datadir)
-    actual_data = pt.human_readable()
 
+    actual_data = pt.human_readable()
     assert actual_data == expected_hr_tree
 
     data_file = (shared_datadir/'data.tree')
@@ -61,6 +67,10 @@ def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
 
     actual_data += '\n'  # append an empty line for getting rid of a line-break problem while testing
     assert actual_data == expected_data
+
+    get_hr_data = pt.get_human_readable()
+    assert get_hr_data == actual_data
+    assert get_hr_data == expected_data
 
 
 @pytest.mark.parametrize(
@@ -87,14 +97,19 @@ def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
 def test_path_tree_human_readable_list(shared_datadir, expected_hr_tree):
     pt = PathTree(root_dir=shared_datadir)
 
-    assert pt.human_readable_list() == expected_hr_tree
+    actual_data = pt.human_readable_list()
+    assert actual_data == expected_hr_tree
 
     data_file = (shared_datadir/'data.tree')
     expected_data = data_file.open(encoding='utf-8').read()
 
-    actual_data = pt.human_readable_list()
     actual_data.append('')  # append an empty line for getting rid of a line-break problem while testing
     assert '\n'.join(actual_data) == expected_data
+
+    get_hr_list = pt.get_human_readable_list()
+    assert get_hr_list == expected_hr_tree
+    assert get_hr_list == actual_data
+    assert '\n'.join(get_hr_list) == expected_data
 
 
 @pytest.mark.parametrize('relative_paths', [True, False])
