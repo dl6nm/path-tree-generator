@@ -42,7 +42,11 @@ class PathTree:
             exclude_none=exclude_none,
         )
 
-    def human_readable(self) -> list:
+    def human_readable(self) -> str:
+        return self._generator.get_tree_human_readable(root_dir_name_only=True)
+
+
+    def human_readable_list(self) -> list:
         return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
 
 
