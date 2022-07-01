@@ -19,7 +19,6 @@ and contains the most base implementations.
 
 [More to come for **path-tree-generator v0.1.0**:][issue-tracker]
 - Adding a "better" getter methods naming
-- Extend tests to check all possible parameters of a method or class
 - ...
 
 But keep in mind that classes, methods and their signatures 

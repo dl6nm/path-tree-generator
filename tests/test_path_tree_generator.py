@@ -22,7 +22,11 @@ from path_tree_generator.path_tree_generator import _PathTreeGenerator
     ids=['ptg_test_dir_not_available'],
 )
 def test_ptg_add_directory(path, expected_dir_entry):
-    tree_list = _PathTreeGenerator(pathlib.Path('test'))
+    tree_list = _PathTreeGenerator(
+        root_dir=pathlib.Path('test'),
+        relative_paths=True,
+        paths_as_posix=False,
+    )
     dir_entry = tree_list._get_dir_entry(path)
 
     assert type(dir_entry.entry_type) == ListEntryType
@@ -45,7 +49,11 @@ def test_ptg_add_directory(path, expected_dir_entry):
     ids=['data.json'],
 )
 def test_ptg_add_file(path, expected_file_entry):
-    tree_list = _PathTreeGenerator(pathlib.Path('test'))
+    tree_list = _PathTreeGenerator(
+        root_dir=pathlib.Path('test'),
+        relative_paths=True,
+        paths_as_posix=False,
+    )
     file_entry = tree_list._get_file_entry(path)
 
     assert type(file_entry.entry_type) == ListEntryType
@@ -133,7 +141,11 @@ def test_ptg_add_file(path, expected_file_entry):
 )
 def test_ptg_build_tree(shared_datadir, expected_tree):
     root_dir = shared_datadir
-    ptg = _PathTreeGenerator(root_dir=root_dir, relative_paths=True)
+    ptg = _PathTreeGenerator(
+        root_dir=root_dir,
+        relative_paths=True,
+        paths_as_posix=False,
+    )
 
     assert ptg._tree_built is False
     ptg._build_tree(root_dir)
@@ -141,8 +153,14 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
     assert ptg._tree_list == expected_tree
 
 
-def test_ptg_get_tree_with_root_dir(shared_datadir):
-    ptg = _PathTreeGenerator(root_dir=shared_datadir)
+@pytest.mark.parametrize('relative_paths', [True, False])
+@pytest.mark.parametrize('paths_as_posix', [True, False])
+def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_posix):
+    ptg = _PathTreeGenerator(
+        root_dir=shared_datadir,
+        relative_paths=relative_paths,
+        paths_as_posix=paths_as_posix,
+    )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
     assert isinstance(ptg.get_tree(), ListEntry)
@@ -150,16 +168,28 @@ def test_ptg_get_tree_with_root_dir(shared_datadir):
     assert ptg._tree_built is True
 
 
-def test_ptg_human_readable(shared_datadir):
-    ptg = _PathTreeGenerator(root_dir=shared_datadir)
+@pytest.mark.parametrize('relative_paths', [True, False])
+@pytest.mark.parametrize('paths_as_posix', [True, False])
+def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix):
+    ptg = _PathTreeGenerator(
+        root_dir=shared_datadir,
+        relative_paths=relative_paths,
+        paths_as_posix=paths_as_posix,
+    )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
     assert isinstance(ptg.get_tree_human_readable(), str)
     assert ptg._tree_built is True
 
 
-def test_ptg_human_readable_list(shared_datadir):
-    ptg = _PathTreeGenerator(root_dir=shared_datadir)
+@pytest.mark.parametrize('relative_paths', [True, False])
+@pytest.mark.parametrize('paths_as_posix', [True, False])
+def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix):
+    ptg = _PathTreeGenerator(
+        root_dir=shared_datadir,
+        relative_paths=relative_paths,
+        paths_as_posix=paths_as_posix,
+    )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
     assert isinstance(ptg.get_tree_human_readable_list(), list)

@@ -9,6 +9,7 @@ from path_tree_generator.models.list_entries import ListEntry
 def test_path_tree_dict(shared_datadir):
     pt = PathTree(
         root_dir=shared_datadir,
+        relative_paths=True,
         paths_as_posix=True,
     )
 
@@ -21,6 +22,7 @@ def test_path_tree_dict(shared_datadir):
 def test_path_tree_json(shared_datadir):
     pt = PathTree(
         root_dir=shared_datadir,
+        relative_paths=True,
         paths_as_posix=True,
     )
     tree_json = json.loads(pt.json(exclude_unset=True))
