@@ -1,24 +1,30 @@
 [tool.poetry]
 name = "path-tree-generator"
-version = "0.0.1"
-description = "Generate human-readable directory listings in a tree-like format as `list[str]`, `dict` or `json`"
+version = "0.0.2"
+description = "Generate tree-like directory listings also for humans, output them as `str`, `list[str]`, `dict` or `json`."
 authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/dl6nm/path-tree-generator"
-keywords = ["path", "directory", "tree", "generator", "json", "converter", "dir"]
+keywords = ["path", "tree", "generator", "json", "converter", "directory", "dir", "human-readable", "tree-like", "linux"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Other Audience",
+    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Operating System :: MacOS",
+    "Operating System :: Microsoft",
     "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
     "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development",
+    "Topic :: System :: Filesystems",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 
 [tool.poetry.dependencies]

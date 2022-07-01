@@ -1,6 +1,6 @@
 # path-tree-generator
 
-Generate human-readable directory listings in a tree-like format as `list[str]`, `dict` or `json`
+Generate tree-like directory listings also for humans, output them as `str`, `list[str]`, `dict` or `json`.
 
     from path_tree_generator import PathTree
     pt = PathTree('/my/path/to/generate')
@@ -14,12 +14,11 @@ Generate human-readable directory listings in a tree-like format as `list[str]`,
 
 :warning: CURRENTLY THIS PACKAGE IS UNDER HEAVY DEVELOPMENT AND NOT FULLY IMPLEMENTED YET! :warning:
 
-The fist working (early) version is released as **path-tree-generator v0.0.1** 
+The fist working (early) version is released as **path-tree-generator v0.0.2** 
 and contains the most base implementations.
 
 [More to come for **path-tree-generator v0.1.0**:][issue-tracker]
 - Adding a "better" getter methods naming
-- Extend tests to check all possible parameters of a method or class
 - ...
 
 But keep in mind that classes, methods and their signatures 

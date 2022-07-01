@@ -33,6 +33,7 @@ class PathTree:
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
+    get_dict = dict
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
         tree = self._generator.get_tree()
@@ -41,13 +42,15 @@ class PathTree:
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
+    get_json = json
 
     def human_readable(self) -> str:
         return self._generator.get_tree_human_readable(root_dir_name_only=True)
-
+    get_human_readable = human_readable
 
     def human_readable_list(self) -> list:
         return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
+    get_human_readable_list = human_readable_list
 
 
 class _PathTreeGenerator:
