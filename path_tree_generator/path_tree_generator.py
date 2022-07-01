@@ -7,7 +7,6 @@ from .models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
-    # @feat: Implement "better" getter methods, name them accordingly...
     def __init__(
             self,
             root_dir: str | pathlib.Path,
