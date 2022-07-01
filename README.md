@@ -5,7 +5,7 @@ Generate tree-like directory listings also for humans, output them as `str`, `li
     from path_tree_generator import PathTree
     pt = PathTree('/my/path/to/generate')
     print(
-        pt.human_readable()
+        pt.get_human_readable()
     )
 
 ----------------------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ might change anytime during development till the first official release 1.0.0.
     from path_tree_generator import PathTree
     pt = PathTree('/my/path/to/generate')
     print(
-        pt.human_readable()
+        pt.get_human_readable()
     )
 
 The code above outputs a tree-like formatted recursive directory listing.
