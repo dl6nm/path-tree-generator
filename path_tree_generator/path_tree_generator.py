@@ -29,7 +29,7 @@ class PathTree:
             paths_as_posix=self._paths_as_posix,
         )
 
-    def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+    def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
         # @fix: AttributeError: 'list' object has no attribute 'dict', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.dict(
@@ -38,7 +38,7 @@ class PathTree:
             exclude_none=exclude_none,
         )
 
-    def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False):
+    def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
         # @fix: AttributeError: 'list' object has no attribute 'json', when wrap_with_root_dir=False
         tree = self._generator.get_tree()
         return tree.json(
@@ -47,7 +47,7 @@ class PathTree:
             exclude_none=exclude_none,
         )
 
-    def human_readable(self):
+    def human_readable(self) -> list:
         return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
 
 
