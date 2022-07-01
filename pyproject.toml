@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "path-tree-generator"
 version = "0.0.1"
-description = "Generate human-readable directory listings in a tree-like format as `list[str]`, `dict` or `json`"
+description = "Generate human-readable directory listings in a tree-like format as `str`, `list[str]`, `dict` or `json`"
 authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"
 readme = "README.md"
