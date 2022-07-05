@@ -26,6 +26,7 @@ def test_ptg_add_directory(path, expected_dir_entry):
         root_dir=pathlib.Path('test'),
         relative_paths=True,
         paths_as_posix=False,
+        read_stat=False,
     )
     dir_entry = tree_list._get_dir_entry(path)
 
@@ -53,6 +54,7 @@ def test_ptg_add_file(path, expected_file_entry):
         root_dir=pathlib.Path('test'),
         relative_paths=True,
         paths_as_posix=False,
+        read_stat=False,
     )
     file_entry = tree_list._get_file_entry(path)
 
@@ -145,6 +147,7 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
         root_dir=root_dir,
         relative_paths=True,
         paths_as_posix=False,
+        read_stat=False,
     )
 
     assert ptg._tree_built is False
@@ -160,6 +163,7 @@ def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_pos
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -175,6 +179,7 @@ def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix):
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -189,6 +194,7 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix)
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -215,7 +221,12 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix)
 )
 def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     root_dir = shared_datadir
-    ptg = _PathTreeGenerator(root_dir=root_dir, relative_paths=True)
+    ptg = _PathTreeGenerator(
+        root_dir=root_dir,
+        relative_paths=True,
+        paths_as_posix=False,
+        read_stat=False,
+    )
 
     assert ptg._tree_built is False
     assert ptg.get_tree_human_readable(root_dir_name_only=True) == expected_hr_tree
@@ -245,7 +256,12 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
 )
 def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
     root_dir = shared_datadir
-    ptg = _PathTreeGenerator(root_dir=root_dir, relative_paths=True)
+    ptg = _PathTreeGenerator(
+        root_dir=root_dir,
+        relative_paths=True,
+        paths_as_posix=False,
+        read_stat=False,
+    )
 
     assert ptg._tree_built is False
     assert ptg.get_tree_human_readable_list(root_dir_name_only=True) == expected_hr_tree

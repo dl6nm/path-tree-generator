@@ -11,6 +11,7 @@ def test_path_tree_dict(shared_datadir):
         root_dir=shared_datadir,
         relative_paths=True,
         paths_as_posix=True,
+        read_stat=False,
     )
 
     data_file = (shared_datadir/'data.json')
@@ -26,6 +27,7 @@ def test_path_tree_json(shared_datadir):
         root_dir=shared_datadir,
         relative_paths=True,
         paths_as_posix=True,
+        read_stat=False,
     )
 
     data_file = (shared_datadir/'data.json')
@@ -125,6 +127,7 @@ def test_path_tree_dict_parameters(relative_paths, paths_as_posix):
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(pt.dict(), dict)
 
@@ -136,6 +139,7 @@ def test_path_tree_json_parameters(relative_paths, paths_as_posix):
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(pt.json(), str)
 
@@ -147,6 +151,7 @@ def test_path_tree_human_readable_parameters(relative_paths, paths_as_posix):
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(pt.human_readable(), str)
 
@@ -158,5 +163,6 @@ def test_path_tree_human_readable_list_parameters(relative_paths, paths_as_posix
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
+        read_stat=False,
     )
     assert isinstance(pt.human_readable_list(), list)
