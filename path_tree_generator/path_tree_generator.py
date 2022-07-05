@@ -12,6 +12,7 @@ class PathTree:
             root_dir: str | pathlib.Path,
             relative_paths=True,
             paths_as_posix=False,
+            read_stat=False,
     ):
         """ `PathTree` class for generating tree-like directory listings also for humans
         and output them as `str`, `list[str]`, `dict` or `json`.
@@ -19,17 +20,20 @@ class PathTree:
         :param root_dir: Root directory, from where to start the tree generator.
         :param relative_paths: Generate relative paths bases on the root_dir, especially for dict and json.
         :param paths_as_posix: Uses string representation of the paths with forward (/) slashes.
+        :param read_stat: Read the files or directories stat and set them in the `ListElement`s of `PathTree`
         """
         self._root_dir = root_dir
         if isinstance(root_dir, str):
             self._root_dir = pathlib.Path(root_dir)
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
+        self._read_stat = read_stat
 
         self._generator = _PathTreeGenerator(
             root_dir=self._root_dir,
             relative_paths=self._relative_paths,
             paths_as_posix=self._paths_as_posix,
+            read_stat=self._read_stat,
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
@@ -95,10 +99,12 @@ class _PathTreeGenerator:
             root_dir: pathlib.Path,
             relative_paths=True,
             paths_as_posix=False,
+            read_stat=False,
     ):
         self._root_dir = root_dir
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
+        self._read_stat = read_stat
 
         self._tree_list: list[ListEntry] = []
         self._tree_dict: dict[ListEntry] = {}

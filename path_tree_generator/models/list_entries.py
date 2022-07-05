@@ -2,6 +2,7 @@ import pathlib
 
 from enum import Enum
 from typing import Optional, Union
+from os import stat_result
 
 from pydantic import BaseModel
 
@@ -20,5 +21,6 @@ class ListEntry(BaseModel):
     name: str
     path: Union[str, pathlib.Path]
     size_bytes: Optional[int]
+    stat: Optional[stat_result]
     children: Optional[list['ListEntry']]
     # @todo: add permissions and attributes like mod, own, grp, ...
