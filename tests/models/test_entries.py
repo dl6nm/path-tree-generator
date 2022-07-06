@@ -1,3 +1,4 @@
+import os
 import pathlib
 
 import pytest
@@ -106,3 +107,19 @@ def test_list_entry_with_children(children: list[ListEntry], expected_values: di
         cle_expected = ListEntry(**expected_values[idx])
         assert type(child) == ListEntry
         assert child == cle_expected
+
+
+def test_list_entry_with_stat():
+    file = pathlib.Path('data/data.json')
+    stat = file.stat()
+    le = ListEntry(
+        entry_type=ListEntryType.dir,
+        name=file.name,
+        path=file,
+        size_bytes=stat.st_size,
+        stat=stat,
+        children=None,
+    )
+    assert isinstance(le, ListEntry)
+    assert isinstance(le.stat, os.stat_result)
+    assert isinstance(le.size_bytes, int)
