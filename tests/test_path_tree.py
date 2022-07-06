@@ -161,11 +161,26 @@ def test_path_tree_human_readable_parameters(relative_paths, paths_as_posix, rea
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_path_tree_human_readable_list_parameters(relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_path_tree_human_readable_list_parameters(relative_paths, paths_as_posix, read_stat):
     pt = PathTree(
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(pt.human_readable_list(), list)
+
+
+@pytest.mark.parametrize('relative_paths', [True, False])
+@pytest.mark.parametrize('paths_as_posix', [True, False])
+def test_path_tree_with_stat(shared_datadir, relative_paths, paths_as_posix):
+    pt = PathTree(
+        root_dir=shared_datadir,
+        relative_paths=relative_paths,
+        paths_as_posix=paths_as_posix,
+        read_stat=True,
+    )
+    d = pt.dict()
+    assert d.get('stat') is not None
+    assert d.get('children')[0].get('stat') is not None
