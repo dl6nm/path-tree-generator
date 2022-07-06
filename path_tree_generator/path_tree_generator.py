@@ -3,7 +3,7 @@ Path Tree Generator
 """
 import pathlib
 
-from .models.list_entries import ListEntry, ListEntryType
+from .models.list_entries import ListEntry, ListEntryStat, ListEntryType
 
 
 class PathTree:
@@ -182,25 +182,39 @@ class _PathTreeGenerator:
             path=path,
             children=self._prepare_entries(_path),
         )
+
+        if self._read_stat:
+            total_size = 0
+            for child in entry.children:
+                total_size += child.stat.size
+            entry.stat = ListEntryStat(
+                size=total_size
+            )
+
         return entry
 
     def _get_file_entry(self, path: pathlib.Path):
-        path_name = path.name
+        entry = ListEntry(
+            entry_type=ListEntryType.file,
+            name=path.name,
+            path=path,
+        )
+
+        if self._read_stat:
+            entry.stat = ListEntryStat(
+                size=path.stat().st_size
+            )
 
         if self._relative_paths:
             try:
                 path = path.relative_to(self._root_dir)
+                entry.path = path
             except ValueError:
                 path = path
 
         if self._paths_as_posix:
-            path = path.as_posix()
+            entry.path = path.as_posix()
 
-        entry = ListEntry(
-            entry_type=ListEntryType.file,
-            name=path_name,
-            path=path,
-        )
         return entry
 
     def _build_hr_tree(self, root_dir_name_only=True):
