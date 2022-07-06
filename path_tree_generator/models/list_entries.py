@@ -2,7 +2,6 @@ import pathlib
 
 from enum import Enum
 from typing import Optional, Union
-from os import stat_result
 
 from pydantic import BaseModel
 
