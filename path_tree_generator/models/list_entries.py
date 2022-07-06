@@ -23,4 +23,3 @@ class ListEntry(BaseModel):
     size_bytes: Optional[int]
     stat: Optional[stat_result]
     children: Optional[list['ListEntry']]
-    # @todo: add permissions and attributes like mod, own, grp, ...
