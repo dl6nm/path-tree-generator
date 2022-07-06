@@ -7,7 +7,13 @@ from pydantic import BaseModel
 
 
 class ListEntryStat(BaseModel):
-    size: Optional[int]
+    size: Optional[int]  # total size, in bytes
+    atime: Optional[float]  # time of last access
+    ctime: Optional[float]  # time of last change
+    mtime: Optional[float]  # time of last modification
+    gid: Optional[int]  # group ID of owner
+    mode: Optional[int]  # protection bits
+    uid: Optional[int]  # user ID of owner
 
 
 class ListEntryType(Enum):
