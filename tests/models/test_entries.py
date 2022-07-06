@@ -113,15 +113,31 @@ def test_list_entry_with_children(children: list[ListEntry], expected_values: di
         assert child == cle_expected
 
 
-def test_list_entry_with_stat():
+def test_list_entry_with_stat_type_check():
     file = pathlib.Path('')
+    stat = file.stat()
     le = ListEntry(
         entry_type=ListEntryType.dir,
         name=file.name,
         path=file,
-        stat=ListEntryStat(size=file.stat().st_size),
+        stat=ListEntryStat(
+            size=stat.st_size,
+            atime=stat.st_atime,
+            ctime=stat.st_ctime,
+            mtime=stat.st_mtime,
+            gid=stat.st_gid,
+            mode=stat.st_mode,
+            uid=stat.st_uid,
+        ),
         children=None,
     )
     assert isinstance(le, ListEntry)
     assert isinstance(le.stat, ListEntryStat)
+
     assert isinstance(le.stat.size, int)
+    assert isinstance(le.stat.atime, float)
+    assert isinstance(le.stat.ctime, float)
+    assert isinstance(le.stat.mtime, float)
+    assert isinstance(le.stat.gid, int)
+    assert isinstance(le.stat.mode, int)
+    assert isinstance(le.stat.uid, int)
