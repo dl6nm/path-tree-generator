@@ -3,7 +3,7 @@ import pathlib
 
 import pytest
 
-from path_tree_generator.models.list_entries import ListEntry, ListEntryType
+from path_tree_generator.models.list_entries import ListEntry, ListEntryStat, ListEntryType
 
 
 def test_list_entry_type():
@@ -14,7 +14,7 @@ def test_list_entry_type():
 
 
 @pytest.mark.parametrize(
-    argnames=['_type', 'name', 'path', 'size_bytes'],
+    argnames=['_type', 'name', 'path', 'size'],
     argvalues=[
         ('dir', 'myDirectory', pathlib.Path('/path/to/myDirectory'), 0),
         ('dir', 'mySecondDirectory', pathlib.Path('/path/to/mySecondDirectory'), 0),
@@ -24,12 +24,12 @@ def test_list_entry_type():
     ],
     ids=['myDirectory', 'mySecondDirectory', 'my.log', 'my.pdf', 'mySecond.pdf'],
 )
-def test_list_entry(_type, name, path, size_bytes):
+def test_list_entry(_type, name, path, size):
     le = ListEntry(
         entry_type=_type,
         name=name,
         path=path,
-        size_bytes=size_bytes,
+        stat=ListEntryStat(size=size)
     )
     assert type(le.entry_type) == ListEntryType
     assert le.entry_type == ListEntryType(_type)
@@ -37,7 +37,7 @@ def test_list_entry(_type, name, path, size_bytes):
     assert le.entry_type.name == _type
     assert le.name == name
     assert le.path == pathlib.Path(path)
-    assert le.size_bytes == size_bytes
+    assert le.stat.size == size
 
 
 @pytest.mark.parametrize(
@@ -59,13 +59,13 @@ def test_list_entry(_type, name, path, size_bytes):
                         entry_type=ListEntryType.file,
                         name='mySubDirFile.jpg',
                         path=pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
-                        size_bytes=987654,
+                        stat=ListEntryStat(size=987654),
                     ),
                     ListEntry(
                         entry_type=ListEntryType.file,
                         name='mySubDirFile.jpg',
                         path='/path/to/directoryWithChildren/mySubDirFile.jpg',
-                        size_bytes=987654,
+                        stat=ListEntryStat(size=987654),
                     ),
                 ],
                 [
@@ -83,13 +83,17 @@ def test_list_entry(_type, name, path, size_bytes):
                         'entry_type': 'file',
                         'name': 'mySubDirFile.jpg',
                         'path': pathlib.Path('/path/to/directoryWithChildren/mySubDirFile.jpg'),
-                        'size_bytes': 987654,
+                        'stat': {
+                            'size': 987654,
+                        },
                     },
                     {
                         'entry_type': 'file',
                         'name': 'mySubDirFile.jpg',
                         'path': '/path/to/directoryWithChildren/mySubDirFile.jpg',
-                        'size_bytes': 987654,
+                        'stat': {
+                            'size': 987654,
+                        },
                     },
                 ],
         ),
@@ -110,16 +114,14 @@ def test_list_entry_with_children(children: list[ListEntry], expected_values: di
 
 
 def test_list_entry_with_stat():
-    file = pathlib.Path('data/data.json')
-    stat = file.stat()
+    file = pathlib.Path('')
     le = ListEntry(
         entry_type=ListEntryType.dir,
         name=file.name,
         path=file,
-        size_bytes=stat.st_size,
-        stat=stat,
+        stat=ListEntryStat(size=file.stat().st_size),
         children=None,
     )
     assert isinstance(le, ListEntry)
-    assert isinstance(le.stat, os.stat_result)
-    assert isinstance(le.size_bytes, int)
+    assert isinstance(le.stat, ListEntryStat)
+    assert isinstance(le.stat.size, int)
