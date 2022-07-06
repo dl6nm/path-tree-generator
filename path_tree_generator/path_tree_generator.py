@@ -134,8 +134,15 @@ class _PathTreeGenerator:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
+            stat = path.stat()
             entry.stat = ListEntryStat(
-                size=total_size
+                size=total_size,
+                atime=stat.st_atime,
+                ctime=stat.st_ctime,
+                mtime=stat.st_mtime,
+                gid=stat.st_gid,
+                mode=stat.st_mode,
+                uid=stat.st_uid,
             )
 
         return entry
@@ -197,8 +204,15 @@ class _PathTreeGenerator:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
+            stat = _path.stat()
             entry.stat = ListEntryStat(
-                size=total_size
+                size=total_size,
+                atime=stat.st_atime,
+                ctime=stat.st_ctime,
+                mtime=stat.st_mtime,
+                gid=stat.st_gid,
+                mode=stat.st_mode,
+                uid=stat.st_uid,
             )
 
         return entry
@@ -211,8 +225,15 @@ class _PathTreeGenerator:
         )
 
         if self._read_stat:
+            stat = path.stat()
             entry.stat = ListEntryStat(
-                size=path.stat().st_size
+                size=stat.st_size,
+                atime=stat.st_atime,
+                ctime=stat.st_ctime,
+                mtime=stat.st_mtime,
+                gid=stat.st_gid,
+                mode=stat.st_mode,
+                uid=stat.st_uid,
             )
 
         if self._relative_paths:
