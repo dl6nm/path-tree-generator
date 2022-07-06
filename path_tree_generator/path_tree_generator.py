@@ -122,12 +122,22 @@ class _PathTreeGenerator:
 
         if self._paths_as_posix:
             path = path.as_posix()
+
         entry = ListEntry(
             entry_type=ListEntryType.dir,
             name=self._root_dir.name,
             path=path,
             children=self._tree_list,
         )
+
+        if self._read_stat:
+            total_size = 0
+            for child in entry.children:
+                total_size += child.stat.size
+            entry.stat = ListEntryStat(
+                size=total_size
+            )
+
         return entry
 
     def get_tree_human_readable(self, root_dir_name_only=True) -> str:
