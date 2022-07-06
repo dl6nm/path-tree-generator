@@ -7,6 +7,10 @@ from os import stat_result
 from pydantic import BaseModel
 
 
+class ListEntryStat(BaseModel):
+    size: Optional[int]
+
+
 class ListEntryType(Enum):
     dir = 'dir'
     file = 'file'
@@ -20,6 +24,5 @@ class ListEntry(BaseModel):
     entry_type: ListEntryType
     name: str
     path: Union[str, pathlib.Path]
-    size_bytes: Optional[int]
-    stat: Optional[stat_result]
+    stat: Optional[ListEntryStat]
     children: Optional[list['ListEntry']]
