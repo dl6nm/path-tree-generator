@@ -88,11 +88,11 @@ class PathTree:
 class _PathTreeGenerator:
     HR_DIR_PREFIX = "["
     HR_DIR_SUFFIX = "]"
-    PIPE = "│"
-    ELBOW = "└──"
-    TEE = "├──"
-    PIPE_PREFIX = "│   "
-    SPACE_PREFIX = "    "
+    HR_PIPE = "│"
+    HR_ELBOW = "└──"
+    HR_TEE = "├──"
+    HR_PIPE_PREFIX = "│   "
+    HR_SPACE_PREFIX = "    "
 
     def __init__(
             self,
@@ -237,7 +237,7 @@ class _PathTreeGenerator:
         entries_count = len(children)
         for index, entry in enumerate(children):
             entry: ListEntry
-            connector = self.ELBOW if index == entries_count - 1 else self.TEE
+            connector = self.HR_ELBOW if index == entries_count - 1 else self.HR_TEE
             if entry.entry_type == ListEntryType.dir:
                 self._hr_add_directory(
                     entry, index, entries_count, prefix, connector
@@ -258,9 +258,9 @@ class _PathTreeGenerator:
         )
 
         if index != entries_count - 1:
-            prefix += self.PIPE_PREFIX
+            prefix += self.HR_PIPE_PREFIX
         else:
-            prefix += self.SPACE_PREFIX
+            prefix += self.HR_SPACE_PREFIX
 
         if entry.children is not None:
             self._hr_tree_body(
