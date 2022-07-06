@@ -122,36 +122,39 @@ def test_path_tree_human_readable_list(shared_datadir, expected_hr_tree):
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_path_tree_dict_parameters(relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_path_tree_dict_parameters(relative_paths, paths_as_posix, read_stat):
     pt = PathTree(
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(pt.dict(), dict)
 
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_path_tree_json_parameters(relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_path_tree_json_parameters(relative_paths, paths_as_posix, read_stat):
     pt = PathTree(
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(pt.json(), str)
 
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_path_tree_human_readable_parameters(relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_path_tree_human_readable_parameters(relative_paths, paths_as_posix, read_stat):
     pt = PathTree(
         root_dir='/not/relevant/for/this/test',
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(pt.human_readable(), str)
 
