@@ -117,6 +117,12 @@ class _PathTreeGenerator:
 
         path = self._root_dir
 
+        if self._relative_paths:
+            path = self._root_dir.relative_to(self._root_dir)
+
+        if self._paths_as_posix:
+            path = path.as_posix()
+
         entry = ListEntry(
             entry_type=ListEntryType.dir,
             name=self._root_dir.name,
@@ -133,12 +139,6 @@ class _PathTreeGenerator:
                     stat=self._root_dir.stat(),
                     size=total_size,
                 )
-
-        if self._relative_paths:
-            entry.path = self._root_dir.relative_to(self._root_dir)
-
-        if self._paths_as_posix:
-            entry.path = path.as_posix()
 
         return entry
 
