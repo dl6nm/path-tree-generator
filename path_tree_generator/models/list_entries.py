@@ -1,6 +1,7 @@
 import pathlib
 
 from enum import Enum
+from os import stat_result
 from typing import Optional, Union
 
 from pydantic import BaseModel
@@ -31,3 +32,20 @@ class ListEntry(BaseModel):
     path: Union[str, pathlib.Path]
     stat: Optional[ListEntryStat]
     children: Optional[list['ListEntry']]
+
+    def add_stat_result(self, stat: stat_result, **kwargs: ListEntryStat.dict):
+        self.stat = ListEntryStat(
+            size=stat.st_size,
+            atime=stat.st_atime,
+            ctime=stat.st_ctime,
+            mtime=stat.st_mtime,
+            gid=stat.st_gid,
+            mode=stat.st_mode,
+            uid=stat.st_uid,
+        )
+
+        # overwrite stats with kwargs, if provided
+        if kwargs:
+            stat = self.stat.dict()
+            stat.update(kwargs)
+            self.stat = ListEntryStat(**stat)
