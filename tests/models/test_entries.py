@@ -6,6 +6,26 @@ import pytest
 from path_tree_generator.models.list_entries import ListEntry, ListEntryStat, ListEntryType
 
 
+def test_list_entry_stat():
+    stat = pathlib.Path('.').stat()
+    les = ListEntryStat(
+        size=stat.st_size,
+        atime=stat.st_atime,
+        ctime=stat.st_ctime,
+        mtime=stat.st_mtime,
+        gid=stat.st_gid,
+        mode=stat.st_mode,
+        uid=stat.st_uid,
+    )
+    assert isinstance(les.size, int)
+    assert isinstance(les.atime, float)
+    assert isinstance(les.ctime, float)
+    assert isinstance(les.mtime, float)
+    assert isinstance(les.gid, int)
+    assert isinstance(les.mode, int)
+    assert isinstance(les.uid, int)
+
+
 def test_list_entry_type():
     assert len(ListEntryType) == 3
     assert ListEntryType.dir.value == 'dir'
@@ -38,6 +58,18 @@ def test_list_entry(_type, name, path, size):
     assert le.name == name
     assert le.path == pathlib.Path(path)
     assert le.stat.size == size
+
+
+def test_list_entry_add_stat_result():
+    file = pathlib.Path('')
+    le = ListEntry(
+        entry_type=ListEntryType.dir,
+        name=file.name,
+        path=file,
+    )
+    assert le.stat is None
+    le.add_stat_result(file.stat())
+    assert isinstance(le.stat, ListEntryStat)
 
 
 @pytest.mark.parametrize(
@@ -133,11 +165,3 @@ def test_list_entry_with_stat_type_check():
     )
     assert isinstance(le, ListEntry)
     assert isinstance(le.stat, ListEntryStat)
-
-    assert isinstance(le.stat.size, int)
-    assert isinstance(le.stat.atime, float)
-    assert isinstance(le.stat.ctime, float)
-    assert isinstance(le.stat.mtime, float)
-    assert isinstance(le.stat.gid, int)
-    assert isinstance(le.stat.mode, int)
-    assert isinstance(le.stat.uid, int)
