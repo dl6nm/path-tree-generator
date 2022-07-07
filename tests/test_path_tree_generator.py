@@ -275,96 +275,7 @@ def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
     assert ptg._tree_built is True
 
 
-@pytest.mark.parametrize(
-    argnames='expected_tree',
-    argvalues=[
-        [
-            ListEntry(
-                entry_type=ListEntryType.file,
-                name='data.json',
-                path=pathlib.Path('data.json'),
-                stat=ListEntryStat(size=1896),
-            ),
-            ListEntry(
-                entry_type=ListEntryType.file,
-                name='data.tree',
-                path=pathlib.Path('data.tree'),
-                stat=ListEntryStat(size=349),
-            ),
-            ListEntry(
-                entry_type=ListEntryType.dir,
-                name='myDirectory-1',
-                path=pathlib.Path('myDirectory-1'),
-                stat=ListEntryStat(size=1319),
-                children=[
-                    ListEntry(
-                        entry_type=ListEntryType.file,
-                        name='myFile.txt',
-                        path=pathlib.Path('myDirectory-1/myFile.txt'),
-                        stat=ListEntryStat(size=27),
-                    ),
-                    ListEntry(
-                        entry_type=ListEntryType.dir,
-                        name='subdirectory',
-                        path=pathlib.Path('myDirectory-1/subdirectory'),
-                        stat=ListEntryStat(size=1292),
-                        children=[
-                            ListEntry(
-                                entry_type=ListEntryType.file,
-                                name='green.gif',
-                                path=pathlib.Path('myDirectory-1/subdirectory/green.gif'),
-                                stat=ListEntryStat(size=1292),
-                            )
-                        ]
-                    ),
-                ],
-            ),
-            ListEntry(
-                entry_type=ListEntryType.dir,
-                name='myDirectory-2',
-                path=pathlib.Path('myDirectory-2'),
-                stat=ListEntryStat(size=1346),
-                children=[
-                    ListEntry(
-                        entry_type=ListEntryType.dir,
-                        name='subdirectory1',
-                        path=pathlib.Path('myDirectory-2/subdirectory1'),
-                        stat=ListEntryStat(size=1292),
-                        children=[
-                            ListEntry(
-                                entry_type=ListEntryType.file,
-                                name='green.gif',
-                                path=pathlib.Path('myDirectory-2/subdirectory1/green.gif'),
-                                stat=ListEntryStat(size=1292),
-                            ),
-                        ],
-                    ),
-                    ListEntry(
-                        entry_type=ListEntryType.dir,
-                        name='subdirectory2',
-                        path=pathlib.Path('myDirectory-2/subdirectory2'),
-                        stat=ListEntryStat(size=54),
-                        children=[
-                            ListEntry(
-                                entry_type=ListEntryType.file,
-                                name='myFile.txt',
-                                path=pathlib.Path('myDirectory-2/subdirectory2/myFile.txt'),
-                                stat=ListEntryStat(size=27),
-                            ),
-                            ListEntry(
-                                entry_type=ListEntryType.file,
-                                name='myFile2.txt',
-                                path=pathlib.Path('myDirectory-2/subdirectory2/myFile2.txt'),
-                                stat=ListEntryStat(size=27),
-                            ),
-                        ],
-                    ),
-                ],
-            ),
-        ],
-    ],
-)
-def test_ptg_build_tree_with_stat(shared_datadir, expected_tree):
+def test_ptg_build_tree_with_stat(shared_datadir):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(
         root_dir=root_dir,
@@ -376,4 +287,10 @@ def test_ptg_build_tree_with_stat(shared_datadir, expected_tree):
     assert ptg._tree_built is False
     ptg._build_tree(root_dir)
     assert ptg._tree_built is True
-    assert ptg._tree_list == expected_tree
+
+    tl = ptg._tree_list
+    for le in tl:
+        assert isinstance(le, ListEntry)
+        assert isinstance(le.stat, ListEntryStat)
+        assert le.stat.size >= 0
+        assert le.stat.ctime > 1640988000.0
