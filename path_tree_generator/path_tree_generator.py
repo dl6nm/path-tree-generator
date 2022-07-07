@@ -128,10 +128,11 @@ class _PathTreeGenerator:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
-            entry.add_stat_result(
-                stat=self._root_dir.stat(),
-                size=total_size,
-            )
+            if self._root_dir.exists():
+                entry.add_stat_result(
+                    stat=self._root_dir.stat(),
+                    size=total_size,
+                )
 
         if self._relative_paths:
             entry.path = self._root_dir.relative_to(self._root_dir)
