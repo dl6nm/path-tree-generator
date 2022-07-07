@@ -1,0 +1,216 @@
+{
+  "entry_type": "dir",
+  "name": "data",
+  "path": ".",
+  "stat": {
+    "size": 8420,
+    "atime": 1657176730.1743324,
+    "ctime": 1656593062.5510206,
+    "mtime": 1656603132.498909,
+    "gid": 0,
+    "mode": 16895,
+    "uid": 0
+  },
+  "children": [
+    {
+      "entry_type": "file",
+      "name": "data-with-stat.json",
+      "path": "data-with-stat.json",
+      "stat": {
+        "size": 5406,
+        "atime": 1657174394.8251617,
+        "ctime": 1657174395.4675546,
+        "mtime": 1656603132.498909,
+        "gid": 0,
+        "mode": 33206,
+        "uid": 0
+      },
+      "children": null
+    },
+    {
+      "entry_type": "file",
+      "name": "data.json",
+      "path": "data.json",
+      "stat": {
+        "size": 5406,
+        "atime": 1657174394.8251617,
+        "ctime": 1657174395.4675546,
+        "mtime": 1656603132.498909,
+        "gid": 0,
+        "mode": 33206,
+        "uid": 0
+      },
+      "children": null
+    },
+    {
+      "entry_type": "file",
+      "name": "data.tree",
+      "path": "data.tree",
+      "stat": {
+        "size": 349,
+        "atime": 1657174394.826435,
+        "ctime": 1657174395.468899,
+        "mtime": 1656593062.552037,
+        "gid": 0,
+        "mode": 33206,
+        "uid": 0
+      },
+      "children": null
+    },
+    {
+      "entry_type": "dir",
+      "name": "myDirectory-1",
+      "path": "myDirectory-1",
+      "stat": {
+        "size": 1319,
+        "atime": 1657174395.4770856,
+        "ctime": 1657174395.4699447,
+        "mtime": 1656593062.5543113,
+        "gid": 0,
+        "mode": 16895,
+        "uid": 0
+      },
+      "children": [
+        {
+          "entry_type": "file",
+          "name": "myFile.txt",
+          "path": "myDirectory-1/myFile.txt",
+          "stat": {
+            "size": 27,
+            "atime": 1657174394.8278887,
+            "ctime": 1657174395.4699447,
+            "mtime": 1656593062.553768,
+            "gid": 0,
+            "mode": 33206,
+            "uid": 0
+          },
+          "children": null
+        },
+        {
+          "entry_type": "dir",
+          "name": "subdirectory",
+          "path": "myDirectory-1/subdirectory",
+          "stat": {
+            "size": 1292,
+            "atime": 1657174395.4770856,
+            "ctime": 1657174395.4709442,
+            "mtime": 1656593062.55502,
+            "gid": 0,
+            "mode": 16895,
+            "uid": 0
+          },
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "green.gif",
+              "path": "myDirectory-1/subdirectory/green.gif",
+              "stat": {
+                "size": 1292,
+                "atime": 1657174394.8288944,
+                "ctime": 1657174395.4709442,
+                "mtime": 1656593062.55502,
+                "gid": 0,
+                "mode": 33206,
+                "uid": 0
+              },
+              "children": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry_type": "dir",
+      "name": "myDirectory-2",
+      "path": "myDirectory-2",
+      "stat": {
+        "size": 1346,
+        "atime": 1657174395.4780855,
+        "ctime": 1657174395.471944,
+        "mtime": 1656593062.5560274,
+        "gid": 0,
+        "mode": 16895,
+        "uid": 0
+      },
+      "children": [
+        {
+          "entry_type": "dir",
+          "name": "subdirectory1",
+          "path": "myDirectory-2/subdirectory1",
+          "stat": {
+            "size": 1292,
+            "atime": 1657174395.4780855,
+            "ctime": 1657174395.4729438,
+            "mtime": 1656593062.5560274,
+            "gid": 0,
+            "mode": 16895,
+            "uid": 0
+          },
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "green.gif",
+              "path": "myDirectory-2/subdirectory1/green.gif",
+              "stat": {
+                "size": 1292,
+                "atime": 1657174394.8316157,
+                "ctime": 1657174395.4729438,
+                "mtime": 1656593062.5560274,
+                "gid": 0,
+                "mode": 33206,
+                "uid": 0
+              },
+              "children": null
+            }
+          ]
+        },
+        {
+          "entry_type": "dir",
+          "name": "subdirectory2",
+          "path": "myDirectory-2/subdirectory2",
+          "stat": {
+            "size": 54,
+            "atime": 1657174395.4790854,
+            "ctime": 1657174395.4739442,
+            "mtime": 1656593062.5571404,
+            "gid": 0,
+            "mode": 16895,
+            "uid": 0
+          },
+          "children": [
+            {
+              "entry_type": "file",
+              "name": "myFile.txt",
+              "path": "myDirectory-2/subdirectory2/myFile.txt",
+              "stat": {
+                "size": 27,
+                "atime": 1657174394.832572,
+                "ctime": 1657174395.4739442,
+                "mtime": 1656593062.557027,
+                "gid": 0,
+                "mode": 33206,
+                "uid": 0
+              },
+              "children": null
+            },
+            {
+              "entry_type": "file",
+              "name": "myFile2.txt",
+              "path": "myDirectory-2/subdirectory2/myFile2.txt",
+              "stat": {
+                "size": 27,
+                "atime": 1657174394.8340557,
+                "ctime": 1657174395.4749632,
+                "mtime": 1656593062.5571404,
+                "gid": 0,
+                "mode": 33206,
+                "uid": 0
+              },
+              "children": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@ Path Tree Generator
 """
 import pathlib
 
-from .models.list_entries import ListEntry, ListEntryType
+from models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
@@ -12,6 +12,7 @@ class PathTree:
             root_dir: str | pathlib.Path,
             relative_paths=True,
             paths_as_posix=False,
+            read_stat=False,
     ):
         """ `PathTree` class for generating tree-like directory listings also for humans
         and output them as `str`, `list[str]`, `dict` or `json`.
@@ -19,17 +20,20 @@ class PathTree:
         :param root_dir: Root directory, from where to start the tree generator.
         :param relative_paths: Generate relative paths bases on the root_dir, especially for dict and json.
         :param paths_as_posix: Uses string representation of the paths with forward (/) slashes.
+        :param read_stat: Read the files or directories stat and set them in the `ListElement`s of `PathTree`
         """
         self._root_dir = root_dir
         if isinstance(root_dir, str):
             self._root_dir = pathlib.Path(root_dir)
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
+        self._read_stat = read_stat
 
         self._generator = _PathTreeGenerator(
             root_dir=self._root_dir,
             relative_paths=self._relative_paths,
             paths_as_posix=self._paths_as_posix,
+            read_stat=self._read_stat,
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
@@ -84,21 +88,23 @@ class PathTree:
 class _PathTreeGenerator:
     HR_DIR_PREFIX = "["
     HR_DIR_SUFFIX = "]"
-    PIPE = "│"
-    ELBOW = "└──"
-    TEE = "├──"
-    PIPE_PREFIX = "│   "
-    SPACE_PREFIX = "    "
+    HR_PIPE = "│"
+    HR_ELBOW = "└──"
+    HR_TEE = "├──"
+    HR_PIPE_PREFIX = "│   "
+    HR_SPACE_PREFIX = "    "
 
     def __init__(
             self,
             root_dir: pathlib.Path,
             relative_paths=True,
             paths_as_posix=False,
+            read_stat=False,
     ):
         self._root_dir = root_dir
         self._relative_paths = relative_paths
         self._paths_as_posix = paths_as_posix
+        self._read_stat = read_stat
 
         self._tree_list: list[ListEntry] = []
         self._tree_dict: dict[ListEntry] = {}
@@ -109,19 +115,31 @@ class _PathTreeGenerator:
     def get_tree(self) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir)
 
+        path = self._root_dir
+
         if self._relative_paths:
             path = self._root_dir.relative_to(self._root_dir)
-        else:
-            path = self._root_dir
 
         if self._paths_as_posix:
             path = path.as_posix()
+
         entry = ListEntry(
             entry_type=ListEntryType.dir,
             name=self._root_dir.name,
             path=path,
             children=self._tree_list,
         )
+
+        if self._read_stat:
+            total_size = 0
+            for child in entry.children:
+                total_size += child.stat.size
+            if self._root_dir.exists():
+                entry.add_stat_result(
+                    stat=self._root_dir.stat(),
+                    size=total_size,
+                )
+
         return entry
 
     def get_tree_human_readable(self, root_dir_name_only=True) -> str:
@@ -176,25 +194,40 @@ class _PathTreeGenerator:
             path=path,
             children=self._prepare_entries(_path),
         )
+
+        if self._read_stat:
+            total_size = 0
+            for child in entry.children:
+                total_size += child.stat.size
+            entry.add_stat_result(
+                stat=_path.stat(),
+                size=total_size,
+            )
+
         return entry
 
     def _get_file_entry(self, path: pathlib.Path):
-        path_name = path.name
+        entry = ListEntry(
+            entry_type=ListEntryType.file,
+            name=path.name,
+            path=path,
+        )
+
+        if self._read_stat:
+            entry.add_stat_result(
+                stat=path.stat(),
+            )
 
         if self._relative_paths:
             try:
                 path = path.relative_to(self._root_dir)
+                entry.path = path
             except ValueError:
                 path = path
 
         if self._paths_as_posix:
-            path = path.as_posix()
+            entry.path = path.as_posix()
 
-        entry = ListEntry(
-            entry_type=ListEntryType.file,
-            name=path_name,
-            path=path,
-        )
         return entry
 
     def _build_hr_tree(self, root_dir_name_only=True):
@@ -217,7 +250,7 @@ class _PathTreeGenerator:
         entries_count = len(children)
         for index, entry in enumerate(children):
             entry: ListEntry
-            connector = self.ELBOW if index == entries_count - 1 else self.TEE
+            connector = self.HR_ELBOW if index == entries_count - 1 else self.HR_TEE
             if entry.entry_type == ListEntryType.dir:
                 self._hr_add_directory(
                     entry, index, entries_count, prefix, connector
@@ -238,9 +271,9 @@ class _PathTreeGenerator:
         )
 
         if index != entries_count - 1:
-            prefix += self.PIPE_PREFIX
+            prefix += self.HR_PIPE_PREFIX
         else:
-            prefix += self.SPACE_PREFIX
+            prefix += self.HR_SPACE_PREFIX
 
         if entry.children is not None:
             self._hr_tree_body(
