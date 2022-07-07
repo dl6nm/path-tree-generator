@@ -5,6 +5,11 @@
   "children": [
     {
       "entry_type": "file",
+      "name": "data-with-stat.json",
+      "path": "data-with-stat.json"
+    },
+    {
+      "entry_type": "file",
       "name": "data.json",
       "path": "data.json"
     },

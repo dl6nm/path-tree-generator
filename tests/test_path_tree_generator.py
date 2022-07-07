@@ -70,6 +70,11 @@ def test_ptg_add_file(path, expected_file_entry):
         [
             ListEntry(
                 entry_type=ListEntryType.file,
+                name='data-with-stat.json',
+                path=pathlib.Path('data-with-stat.json'),
+            ),
+            ListEntry(
+                entry_type=ListEntryType.file,
                 name='data.json',
                 path=pathlib.Path('data.json'),
             ),
@@ -205,6 +210,7 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix)
 @pytest.mark.parametrize(
     argnames='expected_hr_tree',
     argvalues=["""[data]
+├── data-with-stat.json
 ├── data.json
 ├── data.tree
 ├── [myDirectory-1]
@@ -238,6 +244,7 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     argvalues=[
         [
             '[data]',
+            '├── data-with-stat.json',
             '├── data.json',
             '├── data.tree',
             '├── [myDirectory-1]',

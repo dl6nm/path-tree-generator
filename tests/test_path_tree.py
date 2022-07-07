@@ -44,6 +44,7 @@ def test_path_tree_json(shared_datadir):
 @pytest.mark.parametrize(
     argnames='expected_hr_tree',
     argvalues=["""[data]
+├── data-with-stat.json
 ├── data.json
 ├── data.tree
 ├── [myDirectory-1]
@@ -83,6 +84,7 @@ def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
     argvalues=[
         [
             '[data]',
+            '├── data-with-stat.json',
             '├── data.json',
             '├── data.tree',
             '├── [myDirectory-1]',
