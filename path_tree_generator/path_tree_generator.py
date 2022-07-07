@@ -115,13 +115,7 @@ class _PathTreeGenerator:
     def get_tree(self) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir)
 
-        if self._relative_paths:
-            path = self._root_dir.relative_to(self._root_dir)
-        else:
-            path = self._root_dir
-
-        if self._paths_as_posix:
-            path = path.as_posix()
+        path = self._root_dir
 
         entry = ListEntry(
             entry_type=ListEntryType.dir,
@@ -134,16 +128,16 @@ class _PathTreeGenerator:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
-            stat = path.stat()
-            entry.stat = ListEntryStat(
+            entry.add_stat_result(
+                stat=self._root_dir.stat(),
                 size=total_size,
-                atime=stat.st_atime,
-                ctime=stat.st_ctime,
-                mtime=stat.st_mtime,
-                gid=stat.st_gid,
-                mode=stat.st_mode,
-                uid=stat.st_uid,
             )
+
+        if self._relative_paths:
+            entry.path = self._root_dir.relative_to(self._root_dir)
+
+        if self._paths_as_posix:
+            entry.path = path.as_posix()
 
         return entry
 
@@ -204,15 +198,9 @@ class _PathTreeGenerator:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
-            stat = _path.stat()
-            entry.stat = ListEntryStat(
+            entry.add_stat_result(
+                stat=_path.stat(),
                 size=total_size,
-                atime=stat.st_atime,
-                ctime=stat.st_ctime,
-                mtime=stat.st_mtime,
-                gid=stat.st_gid,
-                mode=stat.st_mode,
-                uid=stat.st_uid,
             )
 
         return entry
@@ -225,15 +213,8 @@ class _PathTreeGenerator:
         )
 
         if self._read_stat:
-            stat = path.stat()
-            entry.stat = ListEntryStat(
-                size=stat.st_size,
-                atime=stat.st_atime,
-                ctime=stat.st_ctime,
-                mtime=stat.st_mtime,
-                gid=stat.st_gid,
-                mode=stat.st_mode,
-                uid=stat.st_uid,
+            entry.add_stat_result(
+                stat=path.stat(),
             )
 
         if self._relative_paths:
