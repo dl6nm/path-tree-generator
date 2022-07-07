@@ -10,19 +10,15 @@ Generate tree-like directory listings for humans and output them as `str`, `list
 
 ----------------------------------------------------------------------------------------------------
 
-**ATTENTION: NOT FULLY IMPLEMENTED YET :construction:**
+:warning: **This package is in Beta now and still under development!** :warning:
 
-:warning: CURRENTLY THIS PACKAGE IS UNDER HEAVY DEVELOPMENT AND NOT FULLY IMPLEMENTED YET! :warning:
+Keep in mind that classes, methods and their signatures 
+might change anytime during development till the first official release 1.0.0.
 
-The fist working (early) version is released as **path-tree-generator v0.0.2** 
+The fist working version is released as **path-tree-generator v0.1.0** 
 and contains the most base implementations.
 
-[More to come for **path-tree-generator v0.1.0**:][issue-tracker]
-- Adding a "better" getter methods naming
-- ...
-
-But keep in mind that classes, methods and their signatures 
-might change anytime during development till the first official release 1.0.0.
+Issues and suggestions can be tracked on [GitHub][issue-tracker].
 
 ----------------------------------------------------------------------------------------------------
 
@@ -32,6 +28,9 @@ might change anytime during development till the first official release 1.0.0.
 - [Usage](#usage)
   - [Installation](#installation)
   - [Example](#example)
+    - [Human Readable Path Tree](#human-readable-path-tree)
+    - [Path Tree `dict`](#path-tree-dict)
+    - [Path Tree `json`](#path-tree-json)
 - [Support](#support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -51,18 +50,25 @@ might change anytime during development till the first official release 1.0.0.
 
     pip install path-tree-generator
 
-### Example
+### Examples
+
+All example are using the same instance assigned to the variable `pt` as follows:
 
     from path_tree_generator import PathTree
     pt = PathTree('/my/path/to/generate')
-    print(
-        pt.get_human_readable()
-    )
 
-The code above outputs a tree-like formatted recursive directory listing.
+#### Human Readable Path Tree
+
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+
+    pt.get_human_readable()
+    pt.human_readable()
+
+The code above returns a tree-like formatted recursive directory listing as string.
 Directories are wrapped in square brackets, files aren't.
 
     [data]
+    ├── data-with-stat.json
     ├── data.json
     ├── data.tree
     ├── [myDirectory-1]
@@ -76,9 +82,99 @@ Directories are wrapped in square brackets, files aren't.
             ├── myFile.txt
             └── myFile2.txt
 
+#### Path Tree `dict`
+
+You can also get a `dict` representation of a retrieved `PathTree`, having some additional information like 
+the absolute or relative path of the file or directory and their stats like _size_, _ctime_, _mode_, _uid_ and so on.
+
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+
+    pt.get_dict()
+    pt.dict()
+
+The `dict` looks like as follows:
+
+    {
+        'entry_type': <ListEntryType.dir: 'dir'>, 
+        'name': 'data', 
+        'path': WindowsPath('.'), 
+        'stat': {
+            'size': 10834, 
+            'atime': 1657198698.2257857, 
+            'ctime': 1656593062.5510206, 
+            'mtime': 1657177629.2652764, 
+            'gid': 0, 
+            'mode': 16895, 
+            'uid': 0
+        }, 
+        'children': [
+            {
+                'entry_type': <ListEntryType.file: 'file'>, 
+                'name': 'data-with-stat.json', 
+                'path': WindowsPath('data-with-stat.json'), 
+                'stat': {
+                    'size': 5774, 
+                    'atime': 1657198447.0669634, 
+                    'ctime': 1657177197.231495, 
+                    'mtime': 1657177629.2642767, 
+                    'gid': 0, 
+                    'mode': 33206, 
+                    'uid': 0
+                }, 
+                'children': None
+            },
+            [...]
+        ]
+    }
+
+#### Path Tree `json`
+
+Last but not least you can get a `json` representation, with the same properties like the [Path Tree `dict`](#path-tree-dict).
+
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+
+    pt.get_json()
+    pt.json()
+
+The `json` output looks like as follows:
+
+    {
+      "entry_type": "dir",
+      "name": "data",
+      "path": ".",
+      "stat": {
+        "size": 10834,
+        "atime": 1657199261.7484741,
+        "ctime": 1656593062.5510206,
+        "mtime": 1657177629.2652764,
+        "gid": 0,
+        "mode": 16895,
+        "uid": 0
+      },
+      "children": [
+        {
+          "entry_type": "file",
+          "name": "data-with-stat.json",
+          "path": "data-with-stat.json",
+          "stat": {
+            "size": 5774,
+            "atime": 1657198447.0669634,
+            "ctime": 1657177197.231495,
+            "mtime": 1657177629.2642767,
+            "gid": 0,
+            "mode": 33206,
+            "uid": 0
+          },
+          "children": null
+        },
+        [...]
+      ]
+    }
+
 ## Support
 
 If you're opening [issues][issue-tracker], please mention the version that the issue relates to. 
+Please further provide some sample code and also the expected output or behaviour. 
 
 ## Contributing
 
@@ -91,8 +187,6 @@ This project is licensed under the terms of the MIT license.
 ## Known Issues
 
 - Python version compatibility < v3.10 is not tested yet
-- Getter methods aren't named perfectly, this will be solved in a future version
-- Not all tests are fully implemented yet
 
 
 
