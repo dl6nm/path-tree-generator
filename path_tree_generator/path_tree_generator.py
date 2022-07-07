@@ -3,7 +3,7 @@ Path Tree Generator
 """
 import pathlib
 
-from .models.list_entries import ListEntry, ListEntryStat, ListEntryType
+from models.list_entries import ListEntry, ListEntryType
 
 
 class PathTree:
