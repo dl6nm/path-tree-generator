@@ -35,6 +35,7 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 - [Support](#support)
 - [Contributing](#contributing)
 - [License](#license)
+- [Changelog](#changelog)
 - [Known Issues](#known-issues)
 
 ## Requirements
@@ -186,12 +187,17 @@ To contribute to this project, fork the repository, make your changes and create
 
 This project is licensed under the terms of the MIT license.
 
+## Changelog
+
+All changes are documented on the [GitHub Releases][changelog] page.
+
 ## Known Issues
 
 - Python version compatibility < v3.10 is not tested yet
 
 
 
+[changelog]: https://github.com/dl6nm/path-tree-generator/releases
 [issue-tracker]: https://github.com/dl6nm/path-tree-generator/issues
 [pydantic]: https://pydantic-docs.helpmanual.io/
 [python]: https://www.python.org/

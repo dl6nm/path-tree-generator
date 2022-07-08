@@ -28,7 +28,7 @@ def test_ptg_add_directory(path, expected_dir_entry):
         paths_as_posix=False,
         read_stat=False,
     )
-    dir_entry = tree_list._get_dir_entry(path)
+    dir_entry = tree_list._dir_entry(path)
 
     assert type(dir_entry.entry_type) == ListEntryType
     assert dir_entry.entry_type == ListEntryType.dir
@@ -56,7 +56,7 @@ def test_ptg_add_file(path, expected_file_entry):
         paths_as_posix=False,
         read_stat=False,
     )
-    file_entry = tree_list._get_file_entry(path)
+    file_entry = tree_list._file_entry(path)
 
     assert type(file_entry.entry_type) == ListEntryType
     assert file_entry.entry_type == ListEntryType.file
@@ -172,8 +172,8 @@ def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_pos
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree(), ListEntry)
-    assert isinstance(ptg.get_tree(), ListEntry)
+    assert isinstance(ptg.tree(), ListEntry)
+    assert isinstance(ptg.tree(), ListEntry)
     assert ptg._tree_built is True
 
 
@@ -188,7 +188,7 @@ def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix):
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree_human_readable(), str)
+    assert isinstance(ptg.tree_human_readable(), str)
     assert ptg._tree_built is True
 
 
@@ -203,7 +203,7 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix)
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
-    assert isinstance(ptg.get_tree_human_readable_list(), list)
+    assert isinstance(ptg.tree_human_readable_list(), list)
     assert ptg._tree_built is True
 
 
@@ -235,7 +235,7 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.get_tree_human_readable(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable(root_dir_name_only=True) == expected_hr_tree
     assert ptg._tree_built is True
 
 
@@ -271,7 +271,7 @@ def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.get_tree_human_readable_list(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable_list(root_dir_name_only=True) == expected_hr_tree
     assert ptg._tree_built is True
 
 

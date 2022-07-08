@@ -44,13 +44,12 @@ class PathTree:
         :param exclude_none: Whether fields which are equal to None should be excluded.
         :return: A dict
         """
-        tree = self._generator.get_tree()
+        tree = self._generator.tree()
         return tree.dict(
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
-    get_dict = dict
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
         """ `json` representation of a dictionary tree
@@ -60,29 +59,26 @@ class PathTree:
         :param exclude_none: Whether fields which are equal to None should be excluded.
         :return: A json string
         """
-        tree = self._generator.get_tree()
+        tree = self._generator.tree()
         return tree.json(
             exclude_unset=exclude_unset,
             exclude_defaults=exclude_defaults,
             exclude_none=exclude_none,
         )
-    get_json = json
 
     def human_readable(self) -> str:
         """ Human readable string representation of a dictionary tree
 
         :return: A string
         """
-        return self._generator.get_tree_human_readable(root_dir_name_only=True)
-    get_human_readable = human_readable
+        return self._generator.tree_human_readable(root_dir_name_only=True)
 
     def human_readable_list(self) -> list:
         """ Human readable string list representation of a dictionary tree
 
         :return: A list of strings
         """
-        return self._generator.get_tree_human_readable_list(root_dir_name_only=True)
-    get_human_readable_list = human_readable_list
+        return self._generator.tree_human_readable_list(root_dir_name_only=True)
 
 
 class _PathTreeGenerator:
@@ -112,7 +108,7 @@ class _PathTreeGenerator:
         self._hr_tree_list: list[str] = []
         self._hr_tree_built = False
 
-    def get_tree(self) -> ListEntry | list[ListEntry]:
+    def tree(self) -> ListEntry | list[ListEntry]:
         self._build_tree(self._root_dir)
 
         path = self._root_dir
@@ -142,11 +138,11 @@ class _PathTreeGenerator:
 
         return entry
 
-    def get_tree_human_readable(self, root_dir_name_only=True) -> str:
+    def tree_human_readable(self, root_dir_name_only=True) -> str:
         self._build_hr_tree(root_dir_name_only=root_dir_name_only)
         return '\n'.join(self._hr_tree_list)
 
-    def get_tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
+    def tree_human_readable_list(self, root_dir_name_only=True) -> list[str]:
         self._build_hr_tree(root_dir_name_only=root_dir_name_only)
         return self._hr_tree_list
 
@@ -166,16 +162,16 @@ class _PathTreeGenerator:
             for entry in path.iterdir():
                 if entry.is_dir():
                     entries.append(
-                        self._get_dir_entry(entry)
+                        self._dir_entry(entry)
                     )
                 if entry.is_file():
                     entries.append(
-                        self._get_file_entry(entry)
+                        self._file_entry(entry)
                     )
         if entries:
             return entries
 
-    def _get_dir_entry(self, path: pathlib.Path):
+    def _dir_entry(self, path: pathlib.Path):
         _path = path
         path_name = path.name
 
@@ -206,7 +202,7 @@ class _PathTreeGenerator:
 
         return entry
 
-    def _get_file_entry(self, path: pathlib.Path):
+    def _file_entry(self, path: pathlib.Path):
         entry = ListEntry(
             entry_type=ListEntryType.file,
             name=path.name,

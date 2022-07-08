@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "path-tree-generator"
-version = "0.1.1"
+version = "0.2.0"
 description = "Generate tree-like directory listings for humans and output them as str, list[str], dict or json."
 authors = ["DL6NM <mail@dl6nm.de>"]
 license = "MIT"
@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 pydantic = "^1.9.1"
 
 [tool.poetry.dev-dependencies]
