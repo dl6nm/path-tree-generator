@@ -67,8 +67,10 @@ Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply
     pt.human_readable()
     pt.human_readable_list()
 
-The code above returns a tree-like formatted recursive directory listing as string.
+Both methods return a tree-like formatted recursive directory listing, either as string or as list of strings. 
 Directories are wrapped in square brackets, files aren't.
+
+`pt.human_readable()` returns the directory listing as plain _string_ (`str`) with line breaks.
 
     [data]
     ├── data-with-stat.json
@@ -84,6 +86,25 @@ Directories are wrapped in square brackets, files aren't.
         └── [subdirectory2]
             ├── myFile.txt
             └── myFile2.txt
+
+`pt.human_readable_list()` returns the directory listing as _list of strings_ (`list[str]`).
+    
+    [
+        '[data]',
+        '├── data-with-stat.json',
+        '├── data.json',
+        '├── data.tree',
+        '├── [myDirectory-1]',
+        '│   ├── myFile.txt',
+        '│   └── [subdirectory]',
+        '│       └── green.gif',
+        '└── [myDirectory-2]',
+        '    ├── [subdirectory1]',
+        '    │   └── green.gif',
+        '    └── [subdirectory2]',
+        '        ├── myFile.txt',
+        '        └── myFile2.txt'
+    ]
 
 #### Path Tree `dict`
 
