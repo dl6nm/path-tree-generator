@@ -80,6 +80,13 @@ class PathTree:
         """
         return self._generator.tree_human_readable_list(root_dir_name_only=True)
 
+    def tree(self) -> ListEntry:
+        """ `ListEntry` representation of a dictionary tree (`PathTree`)
+
+        :return: `ListEntry` object
+        """
+        return self._generator.tree()
+
 
 class _PathTreeGenerator:
     HR_DIR_PREFIX = "["
