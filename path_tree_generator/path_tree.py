@@ -115,7 +115,7 @@ class _PathTreeGenerator:
         self._hr_tree_list: list[str] = []
         self._hr_tree_built = False
 
-    def tree(self) -> ListEntry | list[ListEntry]:
+    def tree(self) -> ListEntry:
         self._build_tree(self._root_dir)
 
         path = self._root_dir
