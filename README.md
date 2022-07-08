@@ -25,10 +25,11 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 - [Requirements](#requirements)
 - [Usage](#usage)
   - [Installation](#installation)
-  - [Example](#example)
+  - [Examples](#examples)
     - [Human Readable Path Tree](#human-readable-path-tree)
-    - [Path Tree `dict`](#path-tree-dict)
-    - [Path Tree `json`](#path-tree-json)
+    - [PathTree `dict`](#pathtree-dict)
+    - [PathTree `json`](#pathtree-json)
+    - [PathTree `ListElement`](#pathtree-listelement)
 - [Support](#support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -51,7 +52,7 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 
 ### Examples
 
-All example are using the same instance assigned to the variable `pt` as follows:
+All the following examples are using the same `PathTree` instance assigned to the variable `pt` as follows:
 
     from path_tree_generator import PathTree
 
@@ -103,7 +104,7 @@ Directories are wrapped in square brackets, files aren't.
         '        └── myFile2.txt'
     ]
 
-#### Path Tree `dict`
+#### PathTree `dict`
 
 You can also get a `dict` representation of a retrieved `PathTree`, having some additional information like 
 the absolute or relative path of the file or directory and their stats like _size_, _ctime_, _mode_, _uid_ and so on.
@@ -147,9 +148,9 @@ The `dict` looks like as follows:
         ]
     }
 
-#### Path Tree `json`
+#### PathTree `json`
 
-Last but not least you can get a `json` representation, with the same properties like the [Path Tree `dict`](#path-tree-dict).
+Also a `json` representation exists with the same properties like the [Path Tree `dict`](#pathtree-dict).
 
 Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
 
@@ -189,6 +190,50 @@ The `json` output looks like as follows:
         [...]
       ]
     }
+
+#### PathTree `ListElement`
+
+Last but not least you can get a `ListElement` representation, 
+with the same properties like the [Path Tree `dict`](#path-tree-dict).
+
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
+
+    pt.tree()
+
+The `tree()` method returns a `ListElement` object that looks like as follows:
+
+    ListEntry(
+        entry_type=<ListEntryType.dir: 'dir'>, 
+        name='data', 
+        path=WindowsPath('.'), 
+        stat=ListEntryStat(
+            size=10834, 
+            atime=1657275352.227951, 
+            ctime=1656593062.5510206, 
+            mtime=1657200537.9459143, 
+            gid=0, 
+            mode=16895, 
+            uid=0
+        ), 
+        children=[
+            ListEntry(
+                entry_type=<ListEntryType.file: 'file'>, 
+                name='data-with-stat.json', 
+                path=WindowsPath('data-with-stat.json'), 
+                stat=ListEntryStat(
+                    size=5774, 
+                    atime=1657275220.5838578, 
+                    ctime=1657177197.231495, 
+                    mtime=1657200537.9445078, 
+                    gid=0, 
+                    mode=33206, 
+                    uid=0
+                ), 
+                children=None
+            ), 
+            [...]
+        ]
+    )
 
 ## Support
 
