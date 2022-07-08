@@ -26,10 +26,10 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 - [Usage](#usage)
   - [Installation](#installation)
   - [Examples](#examples)
-    - [Human Readable Path Tree](#human-readable-path-tree)
-    - [PathTree `dict`](#pathtree-dict)
-    - [PathTree `json`](#pathtree-json)
-    - [PathTree `ListElement`](#pathtree-listelement)
+    - [PathTree: `str` or `list[str]` (Human Readable)](#pathtree-str-or-liststr-human-readable)
+    - [PathTree: `dict`](#pathtree-dict)
+    - [PathTree: `json`](#pathtree-json)
+    - [PathTree: `ListElement`](#pathtree-listelement)
 - [Support](#support)
 - [Contributing](#contributing)
 - [License](#license)
@@ -61,7 +61,7 @@ All the following examples are using the same `PathTree` instance assigned to th
 
     pt = PathTree('/my/path/to/generate')
 
-#### Human Readable Path Tree
+#### PathTree: `str` or `list[str]` (Human Readable)
 
 Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following method:
 
@@ -107,7 +107,7 @@ Directories are wrapped in square brackets, files aren't.
         '        └── myFile2.txt'
     ]
 
-#### PathTree `dict`
+#### PathTree: `dict`
 
 You can also get a `dict` representation of a retrieved `PathTree`, having some additional information like 
 the absolute or relative path of the file or directory and their stats like _size_, _ctime_, _mode_, _uid_ and so on.
@@ -151,9 +151,9 @@ The `dict` looks like as follows:
         ]
     }
 
-#### PathTree `json`
+#### PathTree: `json`
 
-Also a `json` representation exists with the same properties like the [Path Tree `dict`](#pathtree-dict).
+Also a `json` representation exists with the same properties like the [PathTree `dict`](#pathtree-dict).
 
 Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
 
@@ -194,10 +194,10 @@ The `json` output looks like as follows:
       ]
     }
 
-#### PathTree `ListElement`
+#### PathTree: `ListElement`
 
 Last but not least you can get a `ListElement` representation, 
-with the same properties like the [Path Tree `dict`](#path-tree-dict).
+with the same properties like the [PathTree `dict`](#pathtree-dict).
 
 Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
 
