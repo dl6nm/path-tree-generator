@@ -3,6 +3,7 @@
 Generate tree-like directory listings for humans and output them as `str`, `list[str]`, `dict` or `json`.
 
     from path_tree_generator import PathTree
+
     pt = PathTree('/my/path/to/generate')
     print(
         pt.get_human_readable()
@@ -55,6 +56,7 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 All example are using the same instance assigned to the variable `pt` as follows:
 
     from path_tree_generator import PathTree
+
     pt = PathTree('/my/path/to/generate')
 
 #### Human Readable Path Tree
