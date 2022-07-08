@@ -37,7 +37,7 @@ class PathTree:
         )
 
     def dict(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> dict:
-        """ `dict` representation of a dictionary tree
+        """ `dict` representation of a dictionary tree (`PathTree`)
 
         :param exclude_unset: Whether fields which were not set should be excluded
         :param exclude_defaults: Whether fields which are equal to their default values should be excluded.
@@ -52,7 +52,7 @@ class PathTree:
         )
 
     def json(self, exclude_unset=False, exclude_defaults=False, exclude_none=False) -> str:
-        """ `json` representation of a dictionary tree
+        """ `json` representation of a dictionary tree (`PathTree`)
 
         :param exclude_unset: Whether fields which were not set should be excluded
         :param exclude_defaults: Whether fields which are equal to their default values should be excluded.
@@ -67,14 +67,14 @@ class PathTree:
         )
 
     def human_readable(self) -> str:
-        """ Human readable string representation of a dictionary tree
+        """ Human readable string representation of a dictionary tree (`PathTree`)
 
         :return: A string
         """
         return self._generator.tree_human_readable(root_dir_name_only=True)
 
     def human_readable_list(self) -> list:
-        """ Human readable string list representation of a dictionary tree
+        """ Human readable string list representation of a dictionary tree (`PathTree`)
 
         :return: A list of strings
         """
