@@ -16,9 +16,6 @@ Generate tree-like directory listings for humans and output them as `str`, `list
 Keep in mind that classes, methods and their signatures 
 might change anytime during development till the first official release 1.0.0.
 
-The fist working version is released as **path-tree-generator v0.1.0** 
-and contains the most base implementations.
-
 Issues and suggestions can be tracked on [GitHub][issue-tracker].
 
 ----------------------------------------------------------------------------------------------------
