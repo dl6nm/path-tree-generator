@@ -52,6 +52,9 @@ Issues and suggestions can be tracked on [GitHub][issue-tracker].
 
 ### Examples
 
+_Don't like to read all this text and wan't to get started?_
+_Then you will find some examples in the [examples](examples) direcotry in this repository._ 
+
 All the following examples are using the same `PathTree` instance assigned to the variable `pt` as follows:
 
     from path_tree_generator import PathTree
