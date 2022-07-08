@@ -6,7 +6,7 @@ Generate tree-like directory listings for humans and output them as `str`, `list
 
     pt = PathTree('/my/path/to/generate')
     print(
-        pt.get_human_readable()
+        pt.human_readable()
     )
 
 ----------------------------------------------------------------------------------------------------
@@ -62,13 +62,15 @@ All example are using the same instance assigned to the variable `pt` as follows
 
 #### Human Readable Path Tree
 
-Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following method:
 
-    pt.get_human_readable()
     pt.human_readable()
+    pt.human_readable_list()
 
-The code above returns a tree-like formatted recursive directory listing as string.
+Both methods return a tree-like formatted recursive directory listing, either as string or as list of strings. 
 Directories are wrapped in square brackets, files aren't.
+
+`pt.human_readable()` returns the directory listing as plain _string_ (`str`) with line breaks.
 
     [data]
     ├── data-with-stat.json
@@ -85,14 +87,32 @@ Directories are wrapped in square brackets, files aren't.
             ├── myFile.txt
             └── myFile2.txt
 
+`pt.human_readable_list()` returns the directory listing as _list of strings_ (`list[str]`).
+    
+    [
+        '[data]',
+        '├── data-with-stat.json',
+        '├── data.json',
+        '├── data.tree',
+        '├── [myDirectory-1]',
+        '│   ├── myFile.txt',
+        '│   └── [subdirectory]',
+        '│       └── green.gif',
+        '└── [myDirectory-2]',
+        '    ├── [subdirectory1]',
+        '    │   └── green.gif',
+        '    └── [subdirectory2]',
+        '        ├── myFile.txt',
+        '        └── myFile2.txt'
+    ]
+
 #### Path Tree `dict`
 
 You can also get a `dict` representation of a retrieved `PathTree`, having some additional information like 
 the absolute or relative path of the file or directory and their stats like _size_, _ctime_, _mode_, _uid_ and so on.
 
-Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
 
-    pt.get_dict()
     pt.dict()
 
 The `dict` looks like as follows:
@@ -134,9 +154,8 @@ The `dict` looks like as follows:
 
 Last but not least you can get a `json` representation, with the same properties like the [Path Tree `dict`](#path-tree-dict).
 
-Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use one of the following methods:
+Using the `PathTree` instance `pt` from the [Examples](#examples) you can simply use the following method:
 
-    pt.get_json()
     pt.json()
 
 The `json` output looks like as follows:
