@@ -1,1 +1,1 @@
-from .path_tree_generator import PathTree
+from path_tree_generator.path_tree import PathTree

@@ -3,7 +3,7 @@ import pathlib
 import pytest
 
 from path_tree_generator.models.list_entries import ListEntry, ListEntryStat, ListEntryType
-from path_tree_generator.path_tree_generator import _PathTreeGenerator
+from path_tree_generator.path_tree import _PathTreeGenerator
 
 
 @pytest.mark.parametrize(
