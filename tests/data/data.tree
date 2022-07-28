@@ -2,6 +2,7 @@
 ├── data-with-stat.json
 ├── data.json
 ├── data.tree
+├── [emptyDirectory]
 ├── [myDirectory-1]
 │   ├── myFile.txt
 │   └── [subdirectory]
