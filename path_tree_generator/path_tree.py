@@ -204,10 +204,11 @@ class _PathTreeGenerator:
             if entry.children:
                 for child in entry.children:
                     total_size += child.stat.size
-            entry.add_stat_result(
-                stat=_path.stat(),
-                size=total_size,
-            )
+            if _path.exists():
+                entry.add_stat_result(
+                    stat=_path.stat(),
+                    size=total_size,
+                )
 
         return entry
 
