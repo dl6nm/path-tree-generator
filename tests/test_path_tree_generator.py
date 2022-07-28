@@ -86,6 +86,12 @@ def test_ptg_add_file(path, expected_file_entry):
             ),
             ListEntry(
                 entry_type=ListEntryType.dir,
+                name='emptyDirectory',
+                path=pathlib.Path('emptyDirectory'),
+                children=None,
+            ),
+            ListEntry(
+                entry_type=ListEntryType.dir,
                 name='myDirectory-1',
                 path=pathlib.Path('myDirectory-1'),
                 children=[
@@ -212,24 +218,11 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix,
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
-    argvalues=["""[data]
-├── data-with-stat.json
-├── data.json
-├── data.tree
-├── [myDirectory-1]
-│   ├── myFile.txt
-│   └── [subdirectory]
-│       └── green.gif
-└── [myDirectory-2]
-    ├── [subdirectory1]
-    │   └── green.gif
-    └── [subdirectory2]
-        ├── myFile.txt
-        └── myFile2.txt"""],
+    argnames='filename',
+    argvalues=['data.tree'],
     ids=['human readable']
 )
-def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
+def test_ptg_hr_tree(shared_datadir, example_data_string, filename):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(
         root_dir=root_dir,
@@ -239,33 +232,16 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.tree_human_readable(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable(root_dir_name_only=True) == example_data_string
     assert ptg._tree_built is True
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
-    argvalues=[
-        [
-            '[data]',
-            '├── data-with-stat.json',
-            '├── data.json',
-            '├── data.tree',
-            '├── [myDirectory-1]',
-            '│   ├── myFile.txt',
-            '│   └── [subdirectory]',
-            '│       └── green.gif',
-            '└── [myDirectory-2]',
-            '    ├── [subdirectory1]',
-            '    │   └── green.gif',
-            '    └── [subdirectory2]',
-            '        ├── myFile.txt',
-            '        └── myFile2.txt'
-        ]
-    ],
+    argnames='filename',
+    argvalues=['data.tree'],
     ids=['human readable']
 )
-def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
+def test_ptg_hr_list_tree(shared_datadir, example_data_list, filename):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(
         root_dir=root_dir,
@@ -275,7 +251,7 @@ def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.tree_human_readable_list(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable_list(root_dir_name_only=True) == example_data_list
     assert ptg._tree_built is True
 
 
