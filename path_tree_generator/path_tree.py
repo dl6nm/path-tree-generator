@@ -135,8 +135,9 @@ class _PathTreeGenerator:
 
         if self._read_stat:
             total_size = 0
-            for child in entry.children:
-                total_size += child.stat.size
+            if entry.children:
+                for child in entry.children:
+                    total_size += child.stat.size
             if self._root_dir.exists():
                 entry.add_stat_result(
                     stat=self._root_dir.stat(),
@@ -198,10 +199,11 @@ class _PathTreeGenerator:
             children=self._prepare_entries(_path),
         )
 
-        if self._read_stat and entry.children:
+        if self._read_stat:
             total_size = 0
-            for child in entry.children:
-                total_size += child.stat.size
+            if entry.children:
+                for child in entry.children:
+                    total_size += child.stat.size
             entry.add_stat_result(
                 stat=_path.stat(),
                 size=total_size,
