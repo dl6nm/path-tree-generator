@@ -198,7 +198,7 @@ class _PathTreeGenerator:
             children=self._prepare_entries(_path),
         )
 
-        if self._read_stat:
+        if self._read_stat and entry.children:
             total_size = 0
             for child in entry.children:
                 total_size += child.stat.size
