@@ -1,6 +1,18 @@
 import json
+import pathlib
 
 import pytest
+
+
+@pytest.fixture(scope='session', autouse=True)
+def init_test():
+    """ Initialize test setup """
+    # Check if 'emptyDirectory' exists in tests/data, otherwise create it
+    p = pathlib.Path().absolute()
+    if p.parent.name == 'path-tree-generator':
+        ed = p / 'data/emptyDirectory'
+        if not ed.exists():
+            ed.mkdir()
 
 
 @pytest.fixture()
