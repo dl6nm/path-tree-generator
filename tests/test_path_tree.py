@@ -6,17 +6,18 @@ from path_tree_generator import PathTree
 from path_tree_generator.models.list_entries import ListEntry
 
 
-def test_path_tree_dict(shared_datadir):
+@pytest.mark.parametrize(
+    argnames='filename',
+    argvalues=['data.json'],
+)
+def test_path_tree_dict(shared_datadir, example_data, filename):
     pt = PathTree(
         root_dir=shared_datadir,
         relative_paths=True,
         paths_as_posix=True,
         read_stat=False,
     )
-
-    data_file = (shared_datadir/'data.json')
-    expected_dict = ListEntry.parse_file(data_file)
-
+    expected_dict = ListEntry(**example_data)
     assert pt.dict() == expected_dict.dict()
 
 
@@ -36,65 +37,28 @@ def test_path_tree_json(shared_datadir):
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
-    argvalues=["""[data]
-├── data-with-stat.json
-├── data.json
-├── data.tree
-├── [myDirectory-1]
-│   ├── myFile.txt
-│   └── [subdirectory]
-│       └── green.gif
-└── [myDirectory-2]
-    ├── [subdirectory1]
-    │   └── green.gif
-    └── [subdirectory2]
-        ├── myFile.txt
-        └── myFile2.txt"""],
+    argnames='filename',
+    argvalues=['data.tree'],
     ids=['human readable'],
 )
-def test_path_tree_human_readable(shared_datadir, expected_hr_tree):
+def test_path_tree_human_readable(shared_datadir, example_data_string, filename):
     pt = PathTree(root_dir=shared_datadir)
-
     actual_data = pt.human_readable()
-    assert actual_data == expected_hr_tree
-
-    data_file = (shared_datadir/'data.tree')
-    expected_data = data_file.open(encoding='utf-8').read()
-
-    # append an empty line to 'actual_data' and 'get_hr_data'
-    # for getting rid of a line-break problem while testing
-    actual_data += '\n'
-    assert actual_data == expected_data
+    assert actual_data == example_data_string
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
+    argnames='filename',
     argvalues=[
-        [
-            '[data]',
-            '├── data-with-stat.json',
-            '├── data.json',
-            '├── data.tree',
-            '├── [myDirectory-1]',
-            '│   ├── myFile.txt',
-            '│   └── [subdirectory]',
-            '│       └── green.gif',
-            '└── [myDirectory-2]',
-            '    ├── [subdirectory1]',
-            '    │   └── green.gif',
-            '    └── [subdirectory2]',
-            '        ├── myFile.txt',
-            '        └── myFile2.txt'
-        ]
+        'data.tree',
     ],
-    ids=['human readable']
+    ids=['human readable'],
 )
-def test_path_tree_human_readable_list(shared_datadir, expected_hr_tree):
+def test_path_tree_human_readable_list(shared_datadir, example_data_list, filename):
     pt = PathTree(root_dir=shared_datadir)
 
     actual_data = pt.human_readable_list()
-    assert actual_data == expected_hr_tree
+    assert actual_data == example_data_list
 
     data_file = (shared_datadir/'data.tree')
     expected_data = data_file.open(encoding='utf-8').read()
