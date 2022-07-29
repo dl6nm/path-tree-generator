@@ -77,6 +77,7 @@ Directories are wrapped in square brackets, files aren't.
     ├── data-with-stat.json
     ├── data.json
     ├── data.tree
+    ├── [emptyDirectory]
     ├── [myDirectory-1]
     │   ├── myFile.txt
     │   └── [subdirectory]
@@ -95,6 +96,7 @@ Directories are wrapped in square brackets, files aren't.
         '├── data-with-stat.json',
         '├── data.json',
         '├── data.tree',
+        '├── [emptyDirectory]',
         '├── [myDirectory-1]',
         '│   ├── myFile.txt',
         '│   └── [subdirectory]',
