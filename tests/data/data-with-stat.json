@@ -59,6 +59,21 @@
     },
     {
       "entry_type": "dir",
+      "name": "emptyDirectory",
+      "path": "emptyDirectory",
+      "stat": {
+        "size": 0,
+        "atime": 1659018821.897222,
+        "ctime": 1659011283.481604,
+        "mtime": 1659011283.481604,
+        "gid": 0,
+        "mode": 16895,
+        "uid": 0
+      },
+      "children": null
+    },
+    {
+      "entry_type": "dir",
       "name": "myDirectory-1",
       "path": "myDirectory-1",
       "stat": {

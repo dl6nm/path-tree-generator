@@ -21,12 +21,13 @@ from path_tree_generator.path_tree import _PathTreeGenerator
     ],
     ids=['ptg_test_dir_not_available'],
 )
-def test_ptg_add_directory(path, expected_dir_entry):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_ptg_add_directory(path, expected_dir_entry, read_stat):
     tree_list = _PathTreeGenerator(
         root_dir=pathlib.Path('test'),
         relative_paths=True,
         paths_as_posix=False,
-        read_stat=False,
+        read_stat=read_stat,
     )
     dir_entry = tree_list._dir_entry(path)
 
@@ -82,6 +83,12 @@ def test_ptg_add_file(path, expected_file_entry):
                 entry_type=ListEntryType.file,
                 name='data.tree',
                 path=pathlib.Path('data.tree'),
+            ),
+            ListEntry(
+                entry_type=ListEntryType.dir,
+                name='emptyDirectory',
+                path=pathlib.Path('emptyDirectory'),
+                children=None,
             ),
             ListEntry(
                 entry_type=ListEntryType.dir,
@@ -163,12 +170,13 @@ def test_ptg_build_tree(shared_datadir, expected_tree):
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_posix, read_stat):
     ptg = _PathTreeGenerator(
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -179,12 +187,13 @@ def test_ptg_get_tree_with_root_dir(shared_datadir, relative_paths, paths_as_pos
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix, read_stat):
     ptg = _PathTreeGenerator(
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -194,12 +203,13 @@ def test_ptg_human_readable(shared_datadir, relative_paths, paths_as_posix):
 
 @pytest.mark.parametrize('relative_paths', [True, False])
 @pytest.mark.parametrize('paths_as_posix', [True, False])
-def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix):
+@pytest.mark.parametrize('read_stat', [True, False])
+def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix, read_stat):
     ptg = _PathTreeGenerator(
         root_dir=shared_datadir,
         relative_paths=relative_paths,
         paths_as_posix=paths_as_posix,
-        read_stat=False,
+        read_stat=read_stat,
     )
     assert isinstance(ptg, _PathTreeGenerator)
     assert ptg._tree_built is False
@@ -208,24 +218,11 @@ def test_ptg_human_readable_list(shared_datadir, relative_paths, paths_as_posix)
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
-    argvalues=["""[data]
-├── data-with-stat.json
-├── data.json
-├── data.tree
-├── [myDirectory-1]
-│   ├── myFile.txt
-│   └── [subdirectory]
-│       └── green.gif
-└── [myDirectory-2]
-    ├── [subdirectory1]
-    │   └── green.gif
-    └── [subdirectory2]
-        ├── myFile.txt
-        └── myFile2.txt"""],
+    argnames='filename',
+    argvalues=['data.tree'],
     ids=['human readable']
 )
-def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
+def test_ptg_hr_tree(shared_datadir, example_data_string, filename):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(
         root_dir=root_dir,
@@ -235,33 +232,16 @@ def test_ptg_hr_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.tree_human_readable(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable(root_dir_name_only=True) == example_data_string
     assert ptg._tree_built is True
 
 
 @pytest.mark.parametrize(
-    argnames='expected_hr_tree',
-    argvalues=[
-        [
-            '[data]',
-            '├── data-with-stat.json',
-            '├── data.json',
-            '├── data.tree',
-            '├── [myDirectory-1]',
-            '│   ├── myFile.txt',
-            '│   └── [subdirectory]',
-            '│       └── green.gif',
-            '└── [myDirectory-2]',
-            '    ├── [subdirectory1]',
-            '    │   └── green.gif',
-            '    └── [subdirectory2]',
-            '        ├── myFile.txt',
-            '        └── myFile2.txt'
-        ]
-    ],
+    argnames='filename',
+    argvalues=['data.tree'],
     ids=['human readable']
 )
-def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
+def test_ptg_hr_list_tree(shared_datadir, example_data_list, filename):
     root_dir = shared_datadir
     ptg = _PathTreeGenerator(
         root_dir=root_dir,
@@ -271,7 +251,7 @@ def test_ptg_hr_list_tree(shared_datadir, expected_hr_tree):
     )
 
     assert ptg._tree_built is False
-    assert ptg.tree_human_readable_list(root_dir_name_only=True) == expected_hr_tree
+    assert ptg.tree_human_readable_list(root_dir_name_only=True) == example_data_list
     assert ptg._tree_built is True
 
 
